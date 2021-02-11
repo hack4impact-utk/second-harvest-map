@@ -29,7 +29,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "lint": "eslint --plugin tsc --rule 'tsc/config: [2, {configFile: \"./tsconfig.json\"}]'",
+    "lint": "yarn lint:tsc ; yarn lint:eslint",
+    "lint:tsc": "tsc -p tsconfig.json --noEmit",
+    "lint:eslint": "eslint '**/*.{tsx,ts,js,jsx}' --fix",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
