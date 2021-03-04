@@ -6,8 +6,9 @@ const MapContainer: FunctionComponent = () => {
     <div style={{ height: '100vh', width: '100%' }}>
       <Map
         bootstrapURLKeys={{ key: process.env.GOOGLE_MAP_KEY ?? '' }}
-        defaultCenter={{ lat: 59.95, lng: 30.33 }}
+        defaultCenter={{ lat: 35.96, lng: -83.92 }}
         defaultZoom={8}
+        //could use onGoogleApiLoaded(func) to access full maps api if needed
       />
     </div>
   );
