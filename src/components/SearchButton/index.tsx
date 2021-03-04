@@ -3,7 +3,6 @@ import 'src/styles/main.css';
 import './searchArea.css';
 
 const SearchButton: FunctionComponent = () => {
-<<<<<<< HEAD
   return (
     <>
       <h1 className="text">Search by clicking</h1>
@@ -26,14 +25,6 @@ const SearchButton: FunctionComponent = () => {
       <input type="text" className="searchArea" />
     </>
   );
-=======
-    return (
-        <>
-            <input type="text"/>
-            <button type="button">Current Location</button>
-        </>
-    );
->>>>>>> React Fragment
 };
 
 export default SearchButton;
