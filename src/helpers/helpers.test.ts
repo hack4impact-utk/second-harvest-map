@@ -1,4 +1,5 @@
 import AddressToLink from 'src/helpers/MapLinkFromAddress';
+import LatLongFromAddress from 'src/helpers/LatLongFromString';
 
 describe('Address string to Google Maps URL Empty Cases', () => {
   test('Fail on Empty/Whitespace String', () => {
@@ -36,5 +37,18 @@ describe('Address string to Google Maps URL Correct Responses', () => {
     expect(AddressToLink('Reaching the Needy Food Pantry')).toBe(
       'https://www.google.com/maps/search/?api=1&query=Reaching+the+Needy+Food+Pantry'
     );
+  });
+});
+
+describe('Address string to Google Maps Lat and Long', () => {
+  test('Fail on Empty/Whitespace String', () => {
+    expect(() => LatLongFromAddress('')).toThrowError('Empty Parameter address');
+    expect(() => LatLongFromAddress('  ')).toThrowError('Empty Parameter address');
+    expect(() => LatLongFromAddress('test string')).not.toThrow();
+  });
+
+  test('Test function', () => {
+    expect(LatLongFromAddress('1600 Pennsylvania Avenue NW, Washington, DC 20500')).toBe('(38.898819, -77.036690)');
+    expect(LatLongFromAddress('Knoxville, TN 37996')).toBeTruthy();
   });
 });
