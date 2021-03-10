@@ -5,7 +5,7 @@ const MapContainer: FunctionComponent = () => {
   return (
     <div style={{ height: '100vh', width: '100%' }}>
       <Map
-        bootstrapURLKeys={{ key: process.env.GOOGLE_MAP_KEY ?? '' }}
+        bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_KEY ?? '' }}
         defaultCenter={{ lat: 35.96, lng: -83.92 }}
         defaultZoom={8}
       />
