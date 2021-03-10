@@ -40,32 +40,21 @@ describe('Address string to Google Maps URL Correct Responses', () => {
   });
 });
 
-
 describe('Match query with type', () => {
   test('Zip codes', () => {
-    expect(Parse('37024')).toBe(
-      'zip'
-    );
-    expect(Parse('123456')).toBe(
-      'error'
-    );
+    expect(Parse('37024')).toBe('zip');
+    expect(Parse('123456')).toBe('error');
   });
 
   test('Counties', () => {
-    expect(Parse('Williamson, TN')).toBe(
-      'county'
-    );
-    expect(Parse('Williamson')).toBe(
-      'error'
-    );
+    expect(Parse('Williamson, TN')).toBe('county');
+    expect(Parse('Williamson')).toBe('error');
   });
 
   test('Addresses', () => {
-    expect(Parse('400 Winston Rd, Knoxville, TN')).toBe(
-      'add1'
-    );
-    //expect(Parse('400 Winston Rd, Knoxville, TN 37909')).toBe(
+    expect(Parse('400 Winston Rd, Knoxville, TN')).toBe('add1');
+    // expect(Parse('400 Winston Rd, Knoxville, TN 37909')).toBe(
     //  'add2'
-    //);
+    // );
   });
 });
