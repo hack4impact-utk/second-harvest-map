@@ -32,15 +32,18 @@ class FoodPantryDisplay extends Component<Props, CardDisplayState> {
       || pantries.slice(offset, offset + 3)
   }
 
-  render() {
+  renderPagination = () => {
     const { pantries } = this.props
     const { offset } = this.state
     const pageCount: number = (pantries.length - 3 > 0) ? pantries.length - 3 : 1
+    return pageCount > 1 && <Pagination page={offset + 1} count={pageCount} onChange={this.onPageChange} />
+  }
 
+  render() {
     return (
       <div>
         <FoodPantryContainer pantries={this.getPantriesToDisplay()} />
-        <Pagination page={offset + 1} count={pageCount} onChange={this.onPageChange} />
+        {this.renderPagination}
       </div>
     )
   }
