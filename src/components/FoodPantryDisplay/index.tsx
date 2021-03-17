@@ -12,11 +12,28 @@ interface CardDisplayState {
 }
 
 class FoodPantryDisplay extends Component<Props, CardDisplayState> {
+  // Set default offset to 0
+  componentWillMount() {
+    this.setState({
+      offset: 0
+    })
+  }
+
+  // Get correct pantries to display
+  getPantriesToDisplay = () => {
+    const { pantries } = this.props
+    const { offset } = this.state
+    return pantries
+  }
+
   render() {
+    const { pantries } = this.props
+    const { offset } = this.state
+
     return (
       <div>
-        <FoodPantryContainer pantries={this.props.pantries} />
-        <Pagination />
+        <FoodPantryContainer pantries={this.getPantriesToDisplay()} />
+        <Pagination page={offset + 1} count={pantries.length} />
       </div>
     )
   }
