@@ -7,7 +7,6 @@ interface Props {
 }
 
 const FoodPantryContainer: FunctionComponent<Props> = ({ pantries }) => {
-
   return (
     <div>
       {pantries.map(pantry => (
