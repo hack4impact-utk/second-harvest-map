@@ -19,14 +19,14 @@ class FoodPantryDisplay extends Component<Props, CardDisplayState> {
   }
 
   // setState on pagination change
-  onPageChange = (event: React.ChangeEvent<unknown>, page: number) => {
+  onPageChange = (event: React.ChangeEvent<unknown>, page: number): void => {
     this.setState({
       offset: page - 1,
     });
   };
 
   // Get correct pantries to display
-  getPantriesToDisplay = () => {
+  getPantriesToDisplay = (): FoodPantry[] => {
     const { pantries } = this.props;
     const { offset } = this.state;
 
@@ -34,18 +34,18 @@ class FoodPantryDisplay extends Component<Props, CardDisplayState> {
     return (pantries.length < 3 && pantries) || pantries.slice(offset, offset + 3);
   };
 
-  renderPagination = () => {
+  renderPagination = (): JSX.Element => {
     const { pantries } = this.props;
     const { offset } = this.state;
-    const pageCount: number = pantries.length - 3 > 0 ? pantries.length - 3 : 1;
-    return pageCount > 1 && <Pagination page={offset + 1} count={pageCount} onChange={this.onPageChange} />;
+    const pageCount = pantries.length - 3 > 0 ? pantries.length - 3 : 1;
+    return (pageCount > 1) ? <Pagination page={offset + 1} count={pageCount} onChange={this.onPageChange} /> : <div />;
   };
 
-  render() {
+  render(): JSX.Element {
     return (
       <div>
         <FoodPantryContainer pantries={this.getPantriesToDisplay()} />
-        {this.renderPagination}
+        {this.renderPagination()}
       </div>
     );
   }
