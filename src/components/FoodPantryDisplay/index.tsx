@@ -38,15 +38,15 @@ class FoodPantryDisplay extends Component<Props, CardDisplayState> {
     const { pantries } = this.props;
     const { offset } = this.state;
     const pageCount = pantries.length - 3 > 0 ? pantries.length - 3 : 1;
-    return (pageCount > 1) ? <Pagination page={offset + 1} count={pageCount} onChange={this.onPageChange} /> : <div />;
+    return pageCount > 1 ? <Pagination page={offset + 1} count={pageCount} onChange={this.onPageChange} /> : <></>;
   };
 
   render(): JSX.Element {
     return (
-      <div>
+      <>
         <FoodPantryContainer pantries={this.getPantriesToDisplay()} />
         {this.renderPagination()}
-      </div>
+      </>
     );
   }
 }
