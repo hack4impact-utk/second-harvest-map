@@ -1,7 +1,7 @@
 export interface FoodPantry {
   name: string;
-  website: string;
-  email: string;
+  website?: string;
+  email?: string;
   address: {
     streetNumber: number;
     streetName: string;
