@@ -42,13 +42,15 @@ describe('Address string to Google Maps URL Correct Responses', () => {
 
 describe('Address string to Google Maps Lat and Long', () => {
   test('Fail on Empty/Whitespace String', () => {
-    expect(() => LatLongFromAddress('')).toThrowError('Empty Parameter address');
-    expect(() => LatLongFromAddress('  ')).toThrowError('Empty Parameter address');
-    expect(() => LatLongFromAddress('test string')).not.toThrow();
+    expect(LatLongFromAddress('')).rejects.toThrowError('Empty Parameter address');
+    expect(LatLongFromAddress('  ')).rejects.toThrowError('Empty Parameter address');
+    expect(LatLongFromAddress('test string')).resolves.not.toThrow();
   });
 
-  test('Test function', () => {
-    expect(LatLongFromAddress('1600 Pennsylvania Avenue NW, Washington, DC 20500')).toBe('(38.898819, -77.036690)');
-    expect(LatLongFromAddress('Knoxville, TN 37996')).toBeTruthy();
+  test('function', async() => {
+    const add = await LatLongFromAddress('1600 Pennsylvania Avenue NW, Washington, DC 20500');
+    console.log(add)
+    expect(add).toBe([38.898819, -77.036690]);
+    expect(LatLongFromAddress('Knoxville, TN 37996')).resolves.toBeTruthy();
   });
 });
