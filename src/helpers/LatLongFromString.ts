@@ -4,34 +4,30 @@
  * @returns latitide and longitude
  */
 
-
 export default async function LatLongFromAddress(address: string) {
-    if (!address || !address.trim()) {
-        throw new Error('Empty Parameter address');
-      }
-    
-      const geocode_api = 'https://maps.googleapis.com/maps/api/geocode/json';
-      let url = `${geocode_api}?address=${encodeURIComponent(address)}`;
-    
-      url += `&key=`;
-      url += `&language=en`;
+  if (!address || !address.trim()) {
+    throw new Error('Empty Parameter address');
+  }
 
+  const geocodeApi = 'https://maps.googleapis.com/maps/api/geocode/json';
+  let url = `${geocodeApi}?address=${encodeURIComponent(address)}`;
+
+  url += `&key=${process.env.REACT_APP_GOOGLE_MAP_KEY|| ''}`;
+  url += `&language=en`;
+
+  try {
     const response = await fetch(url);
-
-    return response.json();
-}
-/*
-    const json = await response.json();
-
-    if (json.status != "OK")
+    if (response.ok)
     {
-      console.warn(`${json.error_message}.\nServer returned status code ${json.status}`);
-    } 
-    else 
-    {
-      console.log(json);
+      console.log('Recieved ok');
+      const obj = await response.json();
+      console.log(obj);
+      console.log([obj.results[0].geometry.location.lat, obj.results[0].geometry.location.lng])
+      return [obj.results[0].geometry.location.lat, obj.results[0].geometry.location.lng]
+    } else {
+      console.log('Got status: ' + response.status);
     }
-    console.log("ABOUT TO PRINT JSON");
-    console.log(json);
-    return json;
-}*/
+  } catch (e) {
+    console.log('Error!');
+  }
+}
