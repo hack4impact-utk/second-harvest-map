@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import Map from 'google-map-react';
+import Marker from '../Marker';
 
 const MapContainer: FunctionComponent = () => {
   return (
@@ -7,8 +8,9 @@ const MapContainer: FunctionComponent = () => {
       <Map
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_KEY ?? '' }}
         defaultCenter={{ lat: 35.96, lng: -83.92 }}
-        defaultZoom={8}
-      />
+        defaultZoom={8}>
+        <Marker lat={35.96} lng={-83.92} />
+      </Map>
     </div>
   );
 };
