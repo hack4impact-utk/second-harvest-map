@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from './logo.svg';
+import './styles/main.css';
 import './App.css';
 import FoodPantryDisplay from './components/FoodPantryDisplay/index';
 
