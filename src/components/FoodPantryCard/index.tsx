@@ -66,7 +66,7 @@ const FoodPantryCard: FunctionComponent<Props> = ({ pantry }) => {
                 fill="black"
               />
             </svg>
-            <a href={pantry.website} className="pantry_website">
+            <a rel="noreferrer" target="_blank" href={pantry.website} className="pantry_website">
               {pantry.website}
             </a>
           </div>
@@ -88,7 +88,9 @@ const FoodPantryCard: FunctionComponent<Props> = ({ pantry }) => {
                 fill="black"
               />
             </svg>
-            <h1 className="pantry_email">{pantry.email}</h1>
+            <a href={`mailto:${pantry.email}`} className="pantry_email">
+              {pantry.email}
+            </a>
           </div>
         )}
       </div>
