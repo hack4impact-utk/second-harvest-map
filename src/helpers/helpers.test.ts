@@ -1,5 +1,6 @@
 import AddressToLink from 'src/helpers/MapLinkFromAddress';
 import Parse from 'src/helpers/ParseQuery';
+import ParsePhone from 'src/helpers/PhoneLink';
 
 describe('Address string to Google Maps URL Empty Cases', () => {
   test('Fail on Empty/Whitespace String', () => {
@@ -56,5 +57,11 @@ describe('Match query with type', () => {
     // expect(Parse('400 Winston Rd, Knoxville, TN 37909')).toBe(
     //  'add2'
     // );
+  });
+});
+
+describe('convert phone number in (xxx) xxx-xxxx to tel:xxx-xxx-xxxx', () => {
+  test('Conversion', () => {
+    expect(ParsePhone('(123) 456-7890')).toBe('tel:123-456-7890');
   });
 });
