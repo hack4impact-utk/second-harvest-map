@@ -2,5 +2,5 @@
 
 export const API_URL = 'localhost';
 export const API_PATHS = {
-  GET_PANTRIES: 'path'
-}
+  GET_PANTRIES: 'path',
+};
