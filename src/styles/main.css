@@ -1,0 +1,43 @@
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css?family=Baskervville');
+@font-face {
+  font-family: 'GothamBook';
+  src: url('Gotham-Book-Regular.otf') format('opentype');
+}
+
+:root {
+  /*------------------
+  | Color Constants |
+  ------------------*/
+  --main-foreground: #505b36;
+  --main-background: #353f4f;
+  --main-highlight: #f4bb44;
+  --main-outline: #ebaa42;
+  --main-big-text-color: #47590f;
+
+  /*----------------------
+  | Typography Constants |
+  -----------------------*/
+
+  /* Large Text (Heading 1) */
+  --large-font-size: 60px;
+  --large-font-family: 'Palatino-bold', 'Times New Roman', 'Times', 'Baskervville', 'Georgia', serif;
+  --large-line-height: 1.2;
+  --large-letter-spacing: 2px;
+
+  /* Big Text (Heading 2) */
+  --big-font-size: 28px;
+  --big-font-family: 'Palatino-bold', 'Times New Roman', 'Times', 'Baskervville', 'Georgia', serif;
+  --big-line-height: 1.2;
+
+  /* Sub Text (SubHeading 1) */
+  --sub-font-size: 25px;
+  --sub-font-family: 'Gotham-Bold', 'Times New Roman', 'Times', 'Baskervville', 'Georgia', serif;
+  --sub-line-height: 1.2;
+  --sub-letter-spacing: 5px;
+
+  /* Normal Text */
+  --normal-font-size: 16px;
+  --normal-font-family: 'GothamBook', 'Times New Roman', Times, 'Baskervville', Georgia, serif;
+  --normal-line-height: 1.5;
+}

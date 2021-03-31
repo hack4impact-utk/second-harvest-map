@@ -1,7 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import { ChildComponentProps } from 'google-map-react';
-import './styles.scss';
-import Pin from './pin.svg';
+import './styles.css';
 
 const Marker: FunctionComponent<ChildComponentProps> = (): JSX.Element => {
   return (
