@@ -1,0 +1,175 @@
+/* The card itself that is displayed */
+.Card {
+  position: relative;
+  width: 310px;
+  height: 320px;
+
+  background: #ffffff;
+  border: 2px solid #47590f;
+  box-sizing: border-box;
+  box-shadow: 5px 10px 20px 1px rgba(0, 0, 0, 0.25);
+  border-radius: 15px;
+}
+
+/* Element for the name displayed at the top of the Card */
+.pantry_name {
+  justify-content: center;
+  width: 280px;
+  height: auto;
+  max-height: 45px;
+  overflow-wrap: normal;
+  font-family: Verdana;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  margin-right: 15px;
+  margin-left: 15px;
+
+  color: #000000;
+}
+
+/* Elements of text for each item displayed */
+.pantry_address {
+  width: 200px;
+  text-align: left;
+  overflow-wrap: break-word;
+  font-family: Verdana;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+
+  color: #000000;
+}
+
+.phone-number {
+  font-family: Verdana;
+  text-align: left;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+
+  color: #000;
+}
+
+.pantry_website {
+  width: 200px;
+  text-align: left;
+  text-overflow: ellipsis;
+  font-family: Verdana;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+  text-decoration: none;
+  color: #000000;
+}
+
+.pantry_email {
+  width: 200px;
+  text-align: left;
+  overflow-wrap: break-word;
+  font-family: Verdana;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 16px;
+}
+
+/* Container divs for the svg and text of each element */
+.address {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  margin-right: 20px;
+  width: 280px;
+  margin-bottom: auto;
+}
+
+.number {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  margin-right: 20px;
+  width: 280px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.email {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  margin-right: 20px;
+  width: 280px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.website {
+  display: flex;
+  align-items: center;
+  padding-left: 20px;
+  margin-right: 20px;
+  width: 280px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+/* // Get Directions Button */
+.get_directions {
+  background: #ffffff;
+  height: 38px;
+  width: 150px;
+  top: 263px;
+  left: 80px;
+  position: absolute;
+
+  /* Outline Orange */
+  border: 1px solid #ebaa42;
+  box-sizing: border-box;
+  border-radius: 9px;
+
+  font-weight: bold;
+  font-size: 18px;
+  transition: 300ms;
+}
+
+.get_directions:hover {
+  background-color: #ebaa42;
+  transition: 300ms;
+  border-color: #000;
+}
+
+/* // Container div for the container divs */
+.content_container {
+  position: relative;
+  margin-bottom: 10px;
+  height: 120px;
+  align-items: center;
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+}
+
+/* // The svg elements */
+.address_svg {
+  height: 25px;
+  width: 30px;
+  margin-right: 12px;
+}
+
+.email_svg {
+  height: 19px;
+  width: 30px;
+  margin-right: 12px;
+}
+
+.phone_svg {
+  height: 25px;
+  width: 30px;
+  margin-right: 12px;
+}
+
+.website_svg {
+  height: 23px;
+  width: 30px;
+  margin-right: 12px;
+}
