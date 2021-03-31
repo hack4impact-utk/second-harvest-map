@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { FoodPantry } from 'utils/types';
+import { FoodPantry } from 'src/utils/types';
 import FoodPantryCard from 'src/components/FoodPantryCard/index';
 
 interface Props {
