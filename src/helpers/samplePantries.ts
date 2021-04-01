@@ -1,4 +1,4 @@
-import { FoodPantry } from 'utils/types';
+import { FoodPantry } from 'src/utils/types';
 
 const SampleFoodPantries: FoodPantry[] = [
   {

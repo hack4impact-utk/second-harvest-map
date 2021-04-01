@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 import Map from 'google-map-react';
-import { FoodPantry } from 'utils/types';
+import { FoodPantry } from 'src/utils/types';
 import Marker from '../Marker';
 
 interface Props {

@@ -1,5 +1,5 @@
-import { FoodPantry } from 'utils/types';
-import { API_URL, API_PATHS } from 'utils/env';
+import { FoodPantry } from 'src/utils/types';
+import { API_URL, API_PATHS } from 'src/utils/env';
 
 // getFoodPantries gets data (food pantries) from the Express Server
 const getFoodPantries = async (): Promise<FoodPantry[]> => {
