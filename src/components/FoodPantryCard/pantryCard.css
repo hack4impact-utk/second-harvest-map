@@ -235,13 +235,11 @@
     position: relative;
     margin-bottom: 10px;
     height: 100px;
-    align-items: center;
     grid-column-gap: 13px;
     grid-row-gap: 0px;
     display: grid;
     grid-template-columns: 130px 130px;
     grid-template-rows: 45px 45px;
-    align-items: center;
   }
 
   /* // The svg elements */
@@ -342,9 +340,10 @@
 
   .email {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     padding-left: 20px;
     margin-right: 20px;
+    margin-bottom: 24px;
     width: 130px;
     /* margin-bottom: auto; */
   }
