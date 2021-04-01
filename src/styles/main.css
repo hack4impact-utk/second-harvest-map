@@ -4,6 +4,10 @@
   font-family: 'GothamBook';
   src: url('Gotham-Book-Regular.otf') format('opentype');
 }
+@font-face {
+  font-family: 'GothamBold';
+  src: url('Gotham-Bold.otf') format('opentype');
+}
 
 :root {
   /*------------------
