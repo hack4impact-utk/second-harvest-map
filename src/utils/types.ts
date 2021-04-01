@@ -8,6 +8,7 @@ export interface FoodPantry {
     zipCode: number;
   };
   phoneNumber: string;
+  county: string;
   position: {
     latitude: number;
     longitude: number;
