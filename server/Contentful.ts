@@ -1,7 +1,9 @@
 import { createClient } from 'contentful-management';
 import { FoodPantry } from 'src/utils/types';
+import dotenv from 'dotenv';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+dotenv.config({ path: '../.env.local' });
+
 const client = createClient({
   accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN as string,
 });
@@ -19,16 +21,17 @@ export default async function getFoodPantries(): Promise<FoodPantry[]> {
   const foodPantries: FoodPantry[] = [];
   for (let i = 0; i < entries.total; i += 1) {
     const foodPantry: FoodPantry = {
-      name: entries.items[i].fields.pantryName,
-      address: {
-        streetNumber: null,
-        streetName: entries.items[i].fields.streetName,
-        zipCode: entries.items[i].fields.zipCode,
+      name: entries.items[i].fields.pantryName['en-US'],
+      address: entries.items[i].fields.address['en-US'],
+      phoneNumber: entries.items[i].fields.phoneNumber['en-US'],
+      position: {
+        latitude: entries.items[i].fields.position['en-US'].lat,
+        longitude: entries.items[i].fields.position['en-US'].lon,
       },
-      phoneNumber: entries.items[i].fields.phoneNumber,
-      position: null,
-      website: entries.items[i].fields.website,
+      website: 'website' in entries.items[i].fields ? entries.items[i].fields.website['en-US'] : null,
+      email: 'email' in entries.items[i].fields ? entries.items[i].fields.email['en-US'] : null,
     };
+
     foodPantries.push(foodPantry);
   }
 
