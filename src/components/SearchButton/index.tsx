@@ -1,8 +1,44 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useRef, useState } from 'react';
 import 'src/styles/main.css';
+import { FoodPantry } from 'src/utils/types';
 import './searchArea.css';
 
-const SearchButton: FunctionComponent = () => {
+type Suggestion = FoodPantry | { countyName: string };
+
+interface Props {
+  pantries: FoodPantry[];
+}
+
+// Type Guard for Food Pantries
+const isFoodPantry = (item: Suggestion): item is FoodPantry => 'name' in item;
+
+const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
+  const searchInput = useRef<HTMLInputElement>(null);
+  const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const Counties: Set<string> = new Set<string>();
+
+  pantries.forEach(pantry => Counties.add(pantry.county));
+
+  const getSuggestions = (searchQuery: string | undefined, counties: string[]): Suggestion[] => {
+    if (!searchQuery || searchQuery.length < 3) return [];
+
+    const CountyMatches = counties.filter(countyName => countyName.search(searchQuery) !== -1);
+
+    const PantryMatches: FoodPantry[] = pantries.filter(
+      pantry =>
+        pantry.name.search(searchQuery) !== -1 ||
+        pantry.address.streetName.search(searchQuery) !== -1 ||
+        pantry.county.search(searchQuery) !== -1
+    );
+
+    return [
+      ...CountyMatches.map(match => {
+        return { countyName: `${match} County` };
+      }),
+      ...PantryMatches,
+    ].splice(0, 5);
+  };
+
   return (
     <>
       <h1 className="text">Search by clicking</h1>
@@ -22,7 +58,19 @@ const SearchButton: FunctionComponent = () => {
         Current Location
       </button>
       <h1 className="text">or</h1>
-      <input type="text" className="searchArea" />
+      <input
+        type="text"
+        className="searchArea"
+        ref={searchInput}
+        onKeyDown={
+          (/* USE LATER FOR ENTER KEY: e: React.KeyboardEvent<HTMLInputElement> */) => {
+            setSuggestions(getSuggestions(searchInput.current?.value, Array.from(Counties)));
+          }
+        }
+      />
+      {suggestions.map(suggest => (
+        <h1>{isFoodPantry(suggest) ? suggest.name : suggest.countyName}</h1>
+      ))}
     </>
   );
 };
