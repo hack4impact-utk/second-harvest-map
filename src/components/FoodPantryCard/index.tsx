@@ -1,5 +1,7 @@
+import '../../styles/main.css';
 import React, { FunctionComponent } from 'react';
 import { FoodPantry } from 'utils/types';
+
 import './pantryCard.css';
 
 interface Props {
