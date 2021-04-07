@@ -28,6 +28,7 @@ export default async function getFoodPantries(): Promise<FoodPantry[]> {
         latitude: entries.items[i].fields.position['en-US'].lat,
         longitude: entries.items[i].fields.position['en-US'].lon,
       },
+      county: entries.items[i].fields.county['en-US'],
       website: 'website' in entries.items[i].fields ? entries.items[i].fields.website['en-US'] : null,
       email: 'email' in entries.items[i].fields ? entries.items[i].fields.email['en-US'] : null,
     };
