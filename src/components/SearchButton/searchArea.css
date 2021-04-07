@@ -1,6 +1,7 @@
 .text {
   color: #000000;
   font-family: var(--sub-font-family);
+  font-weight: var(--sub-font-weight);
   font-size: 20px;
 }
 
