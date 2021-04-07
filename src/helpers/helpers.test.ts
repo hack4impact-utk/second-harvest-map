@@ -63,5 +63,7 @@ describe('Match query with type', () => {
 describe('convert phone number in (xxx) xxx-xxxx to tel:xxx-xxx-xxxx', () => {
   test('Conversion', () => {
     expect(ParsePhone('(123) 456-7890')).toBe('tel:123-456-7890');
+    expect(ParsePhone('(999) 999-9999')).toBe('tel:999-999-9999');
+    expect(ParsePhone('hello')).toBe('error');
   });
 });

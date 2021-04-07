@@ -5,14 +5,20 @@
  */
  export default function ParsePhone(str: string): string {
     let numb: string = str.replace(/\s+/g, '');
-    console.log(numb);
 
-    numb = numb.replace(/(\(|\))/g, '-');
-    console.log(numb);
-    numb = numb.substring(1);
-    numb = "tel:" + numb;
+    let found = str.match(/^\(\d{3}\)\s\d{3}-\d{4}/g);
+
+    if (found !== null)
+    {
+      numb = numb.replace(/(\(|\))/g, '-');
+      numb = numb.substring(1);
+      numb = "tel:" + numb;
 
     return numb;
+    }else
+    {
+      return 'error';
+    }
     
   }
   
