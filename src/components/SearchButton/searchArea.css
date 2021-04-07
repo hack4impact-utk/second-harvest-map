@@ -1,15 +1,25 @@
 .text {
   color: #000000;
-  font-family: var(--normal-font-family);
+  font-family: var(--sub-font-family);
+  font-weight: var(--sub-font-weight);
   font-size: 20px;
 }
 
 .searchArea {
   margin-top: 6px;
-  width: 320px;
-  height: 23px;
+  width: 360px;
+  height: 30px;
   border-radius: 9px;
   border-color: #000000;
+  border-width: 1.5px;
+  text-align: left;
+  padding-left: 38px;
+  font-family: var(--normal-font-family);
+  font-size: 15px;
+}
+
+.searchArea:focus {
+  outline: 0;
 }
 
 .Button {
@@ -25,10 +35,96 @@
   letter-spacing: 0.3px;
   font-size: 13.5px;
   align-items: center;
+  transition: 200ms;
+}
+
+.Button:focus {
+  outline: 0;
+  transition: 100ms;
+  background-color: #59687f;
 }
 
 .PinSVG {
   height: 24px;
   margin-right: 10px;
   margin-left: 8px;
+}
+
+.searchBox {
+  position: relative;
+}
+
+.searchGlass {
+  height: 25px;
+  position: absolute;
+  margin-left: 6px;
+  margin-top: 12px;
+}
+
+@media only screen and (max-width: 600px) {
+  .text {
+    color: #000000;
+    font-family: var(--normal-font-family);
+    font-size: 15px;
+    margin-bottom: 4px;
+    margin-top: 6px;
+  }
+
+  .searchArea {
+    /* margin-top: 6px; */
+    width: 300px;
+    height: 33px;
+    border-radius: 9px;
+    border-color: #000000;
+    border-width: 1.5px;
+    text-align: left;
+    padding-left: 38px;
+    font-family: var(--normal-font-family);
+    font-size: 15px;
+  }
+
+  .searchArea:focus {
+    outline: 0;
+  }
+
+  .Button {
+    margin-top: 10px;
+    display: flex;
+    width: 186px;
+    height: 40px;
+    background-color: #353f4f;
+    border: none;
+    border-radius: 9px;
+    color: #ffffff;
+    font-family: var(--normal-font-family);
+    font-weight: bold;
+    letter-spacing: 0.3px;
+    font-size: 14px;
+    align-items: center;
+    transition: 200ms;
+    margin-bottom: 2px;
+  }
+
+  .Button:focus {
+    outline: 0;
+    transition: 100ms;
+    background-color: #59687f;
+  }
+
+  .PinSVG {
+    height: 22px;
+    margin-right: 10px;
+    margin-left: 8px;
+  }
+
+  .searchBox {
+    position: relative;
+  }
+
+  .searchGlass {
+    height: 25px;
+    position: absolute;
+    margin-left: 6px;
+    margin-top: 12px;
+  }
 }

@@ -1,3 +1,4 @@
+import '../../styles/main.css';
 import React, { FunctionComponent } from 'react';
 import { FoodPantry } from 'src/utils/types';
 import './pantryCard.css';
