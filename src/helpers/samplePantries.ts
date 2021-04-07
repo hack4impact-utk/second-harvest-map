@@ -1,4 +1,4 @@
-import { FoodPantry } from 'utils/types';
+import { FoodPantry } from 'src/utils/types';
 
 const SampleFoodPantries: FoodPantry[] = [
   {
@@ -8,6 +8,7 @@ const SampleFoodPantries: FoodPantry[] = [
       streetName: 'Dante School Road Knoxville, TN',
       zipCode: 37918,
     },
+    county: 'Knox',
     position: {
       latitude: 36.031195548220644,
       longitude: -83.98594027526391,
@@ -21,6 +22,7 @@ const SampleFoodPantries: FoodPantry[] = [
       streetName: 'Maynardville Pike Knoxville, TN',
       zipCode: 37918,
     },
+    county: 'Knox',
     position: {
       latitude: 36.06860492536348,
       longitude: -83.92789318875579,
@@ -34,6 +36,7 @@ const SampleFoodPantries: FoodPantry[] = [
       streetName: 'E Broadway Maryville, TN',
       zipCode: 37804,
     },
+    county: 'Blount',
     position: {
       latitude: 35.77472539392523,
       longitude: -83.95544423294236,

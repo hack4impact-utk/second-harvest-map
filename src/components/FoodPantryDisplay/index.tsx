@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FoodPantry } from 'utils/types';
+import { FoodPantry } from 'src/utils/types';
 import FoodPantryContainer from 'src/components/FoodPantryContainer/index';
 import { Pagination } from '@material-ui/lab';
 
