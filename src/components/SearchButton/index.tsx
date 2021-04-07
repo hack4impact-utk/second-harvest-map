@@ -3,14 +3,14 @@ import 'src/styles/main.css';
 import { FoodPantry } from 'src/utils/types';
 import './searchArea.css';
 
-type Suggestion = FoodPantry | { countyName: string };
+type Suggestion = FoodPantry | string;
 
 interface Props {
   pantries: FoodPantry[];
 }
 
 // Type Guard for Food Pantries
-const isFoodPantry = (item: Suggestion): item is FoodPantry => 'name' in item;
+const isFoodPantry = (item: Suggestion): item is FoodPantry => typeof item !== 'string' && 'name' in item;
 
 const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
   const searchInput = useRef<HTMLInputElement>(null);
@@ -31,12 +31,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
         pantry.county.search(searchQuery) !== -1
     );
 
-    return [
-      ...CountyMatches.map(match => {
-        return { countyName: `${match} County` };
-      }),
-      ...PantryMatches,
-    ].splice(0, 5);
+    return [...CountyMatches.map(match => `${match} County`), ...PantryMatches].splice(0, 5);
   };
 
   return (
@@ -69,7 +64,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
         }
       />
       {suggestions.map(suggest => (
-        <h1>{isFoodPantry(suggest) ? suggest.name : suggest.countyName}</h1>
+        <h1>{isFoodPantry(suggest) ? suggest.name : suggest}</h1>
       ))}
     </>
   );
