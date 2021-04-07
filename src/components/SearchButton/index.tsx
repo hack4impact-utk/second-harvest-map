@@ -68,19 +68,19 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
         </svg>
 
         <input
-        type="text"
-        className="searchArea"
-        ref={searchInput}
-        placeholder="Search by location, Zip, or County"
-        onKeyDown={
-          (/* USE LATER FOR ENTER KEY: e: React.KeyboardEvent<HTMLInputElement> */) => {
-            setSuggestions(getSuggestions(searchInput.current?.value, Array.from(Counties)));
+          type="text"
+          className="searchArea"
+          ref={searchInput}
+          placeholder="Search by location, Zip, or County"
+          onKeyDown={
+            (/* USE LATER FOR ENTER KEY: e: React.KeyboardEvent<HTMLInputElement> */) => {
+              setSuggestions(getSuggestions(searchInput.current?.value, Array.from(Counties)));
+            }
           }
-        }
-       />
-      {suggestions.map(suggest => (
-        <h1>{isFoodPantry(suggest) ? suggest.name : suggest}</h1>
-      ))}
+        />
+        {suggestions.map(suggest => (
+          <h1>{isFoodPantry(suggest) ? suggest.name : suggest}</h1>
+        ))}
       </div>
     </>
   );

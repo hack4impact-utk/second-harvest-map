@@ -9,7 +9,7 @@ function App(): JSX.Element {
     <div className="App">
       <header className="App-header">
         <FoodPantryDisplay pantries={[]} />
-        <SearchButton />
+        <SearchButton pantries={[]} />
       </header>
     </div>
   );
