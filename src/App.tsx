@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import getFoodPantries from 'src/client/getFoodPantries';
+import FoodPantryDisplay from './components/FoodPantryDisplay/index';
 import logo from './logo.svg';
 import './styles/main.css';
 import './App.css';
-import FoodPantryDisplay from './components/FoodPantryDisplay/index';
 
 function App(): JSX.Element {
+  // Pass foodPantries to other components
+  const [foodPantries, setFoodPantries] = useState(0);
+
+  useEffect(() => {
+    const gatherData = async () => {
+      try {
+        await setFoodPantries(await getFoodPantries());
+      } catch (e) {
+        console.log(`Error: ${e}`);
+      }
+    };
+
+    gatherData();
+  });
+
   return (
     <div className="App">
       <header className="App-header">
