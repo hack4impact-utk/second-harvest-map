@@ -1,7 +1,7 @@
 /**
  * Returns what the input is (zip code, county name, or address)
  * @Param str The string to convert
- * @Returns A string telling what the input is
+ * @Returns A string returning either error or the correctly formatted tel number
  */
 export default function ParsePhone(str: string): string {
   let numb: string = str.replace(/\s+/g, '');
