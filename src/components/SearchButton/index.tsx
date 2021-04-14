@@ -34,10 +34,30 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
     return [...CountyMatches.map(match => `${match} County`), ...PantryMatches].splice(0, 5);
   };
 
+  async function OnClickcurloc() {
+    function getLongAndLat() {
+      return new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject));
+    }
+
+    try {
+      const position = (await getLongAndLat()) as GeolocationPosition;
+      const loc = position.coords;
+      console.log(loc.longitude, loc.latitude);
+    } catch (e) {
+      console.log(e);
+      alert('could not get location');
+    }
+  }
+
   return (
     <>
       <h1 className="text">Search by clicking</h1>
-      <button className="Button" type="button">
+      <button
+        className="Button"
+        type="button"
+        onClick={() => {
+          OnClickcurloc();
+        }}>
         <svg
           className="PinSVG"
           width="15"
