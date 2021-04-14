@@ -1,5 +1,5 @@
 /**
- * Returns what the input is (zip code, county name, or address)
+ * Returns formatted telephone number string i.e. tel:xxx-xxx-xxxx
  * @Param str The string to convert
  * @Returns A string returning either error or the correctly formatted tel number
  */
