@@ -1,4 +1,6 @@
-import React, { FunctionComponent, useRef, useState } from 'react';
+/* eslint-disable no-console */
+/* eslint-disable no-alert */
+import React, { FunctionComponent, useState } from 'react';
 import 'src/styles/main.css';
 import { FoodPantry } from 'src/utils/types';
 import './searchArea.css';
@@ -13,8 +15,9 @@ interface Props {
 const isFoodPantry = (item: Suggestion): item is FoodPantry => typeof item !== 'string' && 'name' in item;
 
 const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
-  const searchInput = useRef<HTMLInputElement>(null);
+  const [searchInput, setSearchInput] = useState<string>('');
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [usingCurrLoc, setUsingCurrLoc] = useState<boolean>(false);
   const Counties: Set<string> = new Set<string>();
 
   pantries.forEach(pantry => Counties.add(pantry.county));
@@ -42,6 +45,8 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
     try {
       const position = (await getLongAndLat()) as GeolocationPosition;
       const loc = position.coords;
+      setUsingCurrLoc(true);
+      setSearchInput('Current Location');
       console.log(loc.longitude, loc.latitude);
     } catch (e) {
       console.log(e);
@@ -57,6 +62,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
         type="button"
         onClick={() => {
           OnClickcurloc();
+          setSuggestions([]);
         }}>
         <svg
           className="PinSVG"
@@ -90,13 +96,18 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
         <input
           type="text"
           className="searchArea"
-          ref={searchInput}
+          value={searchInput}
+          style={usingCurrLoc ? { color: '#2486ff' } : {}}
           placeholder="Search by location, Zip, or County"
-          onKeyDown={
-            (/* USE LATER FOR ENTER KEY: e: React.KeyboardEvent<HTMLInputElement> */) => {
-              setSuggestions(getSuggestions(searchInput.current?.value, Array.from(Counties)));
+          onChange={e => !usingCurrLoc && setSearchInput(e.target.value)}
+          onKeyDown={e => {
+            if (usingCurrLoc && e.key === 'Backspace') {
+              setSearchInput('');
+              setUsingCurrLoc(false);
+            } else {
+              setSuggestions(getSuggestions(searchInput, Array.from(Counties)));
             }
-          }
+          }}
         />
         {suggestions.map(suggest => (
           <h1>{isFoodPantry(suggest) ? suggest.name : suggest}</h1>
