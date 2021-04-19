@@ -4,7 +4,7 @@
  * @returns latitide and longitude
  */
 
-export default async function LatLongFromAddress(address: string) {
+export default async function LatLongFromAddress(address: string): Promise<[number, number] | undefined> {
   if (!address || !address.trim()) {
     throw new Error('Empty Parameter address');
   }
@@ -12,22 +12,17 @@ export default async function LatLongFromAddress(address: string) {
   const geocodeApi = 'https://maps.googleapis.com/maps/api/geocode/json';
   let url = `${geocodeApi}?address=${encodeURIComponent(address)}`;
 
-  url += `&key=${process.env.REACT_APP_GOOGLE_MAP_KEY|| ''}`;
+  url += `&key=${process.env.REACT_APP_GOOGLE_MAP_KEY || ''}`;
   url += `&language=en`;
 
   try {
     const response = await fetch(url);
-    if (response.ok)
-    {
-      console.log('Recieved ok');
+    if (response.ok) {
       const obj = await response.json();
-      console.log(obj);
-      console.log([obj.results[0].geometry.location.lat, obj.results[0].geometry.location.lng])
-      return [obj.results[0].geometry.location.lat, obj.results[0].geometry.location.lng]
-    } else {
-      console.log('Got status: ' + response.status);
+      return [obj.results[0].geometry.location.lat, obj.results[0].geometry.location.lng];
     }
   } catch (e) {
-    console.log('Error!');
+    // eslint-disable-next-line no-console
+    console.log(`Error: ${e}`);
   }
 }

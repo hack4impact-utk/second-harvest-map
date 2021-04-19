@@ -2,6 +2,10 @@ import AddressToLink from 'src/helpers/MapLinkFromAddress';
 import Parse from 'src/helpers/ParseQuery';
 import ParsePhone from 'src/helpers/PhoneLink';
 import LatLongFromAddress from 'src/helpers/LatLongFromString';
+import dotenv from 'dotenv';
+
+// Allow environment variables to function
+dotenv.config({ path: './.env.local' });
 
 describe('Address string to Google Maps URL Empty Cases', () => {
   test('Fail on Empty/Whitespace String', () => {
@@ -66,17 +70,20 @@ describe('convert phone number in (xxx) xxx-xxxx to tel:xxx-xxx-xxxx', () => {
     expect(ParsePhone('(123) 456-7890')).toBe('tel:123-456-7890');
     expect(ParsePhone('(999) 999-9999')).toBe('tel:999-999-9999');
     expect(ParsePhone('hello')).toBe('error');
+  });
+});
 describe('Address string to Google Maps Lat and Long', () => {
-  test('Fail on Empty/Whitespace String', () => {
-    expect(LatLongFromAddress('')).rejects.toThrowError('Empty Parameter address');
-    expect(LatLongFromAddress('  ')).rejects.toThrowError('Empty Parameter address');
-    expect(LatLongFromAddress('test string')).resolves.not.toThrow();
+  test('Fail on Empty/Whitespace String', async () => {
+    await expect(LatLongFromAddress('')).rejects.toThrowError('Empty Parameter address');
+    await expect(LatLongFromAddress('  ')).rejects.toThrowError('Empty Parameter address');
+    await expect(LatLongFromAddress('test string')).resolves.not.toThrow();
   });
 
-  test('function', async() => {
-    const add = await LatLongFromAddress('1600 Pennsylvania Avenue NW, Washington, DC 20500');
-    console.log(add)
-    expect(add).toBe([38.898819, -77.036690]);
-    expect(LatLongFromAddress('Knoxville, TN 37996')).resolves.toBeTruthy();
+  test('function', async () => {
+    const [lat, lon] = (await LatLongFromAddress('1600 Pennsylvania Avenue NW, Washington, DC 20500')) ?? [null, null];
+    expect([lat, lon]).not.toBe([null, null]);
+    expect(lat).toBeCloseTo(38.898819);
+    expect(lon).toBeCloseTo(-77.03669);
+    await expect(LatLongFromAddress('Knoxville, TN 37996')).resolves.toBeTruthy();
   });
 });
