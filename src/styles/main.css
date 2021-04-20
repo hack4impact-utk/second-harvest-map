@@ -5,7 +5,7 @@
   src: url('Gotham-Book-Regular.otf') format('opentype');
 }
 @font-face {
-  font-family: 'GothamBold';
+  font-family: 'Gotham-Bold';
   src: url('Gotham-Bold.otf') format('opentype');
 }
 
@@ -37,11 +37,13 @@
   /* Sub Text (SubHeading 1) */
   --sub-font-size: 25px;
   --sub-font-family: 'Gotham-Bold', 'Times New Roman', 'Times', 'Baskervville', 'Georgia', serif;
+  --sub-font-weight: 400;
   --sub-line-height: 1.2;
   --sub-letter-spacing: 5px;
 
   /* Normal Text */
   --normal-font-size: 16px;
   --normal-font-family: 'GothamBook', 'Times New Roman', Times, 'Baskervville', Georgia, serif;
+  --normal-font-weight: 400;
   --normal-line-height: 1.5;
 }
