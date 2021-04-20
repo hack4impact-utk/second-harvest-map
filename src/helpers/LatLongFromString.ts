@@ -3,6 +3,9 @@
  * @param address The address
  * @returns latitide and longitude
  */
+ import dotenv from 'dotenv';
+
+ dotenv.config();
 
 export default async function LatLongFromAddress(address: string): Promise<[number, number] | undefined> {
   if (!address || !address.trim()) {
