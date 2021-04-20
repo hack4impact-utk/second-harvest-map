@@ -20,7 +20,7 @@ function App(): JSX.Element {
     };
 
     gatherData();
-  });
+  }, []);
 
   return (
     <div className="App">
