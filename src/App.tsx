@@ -13,7 +13,7 @@ function App(): JSX.Element {
   useEffect(() => {
     const gatherData = async () => {
       try {
-        await setFoodPantries(await getFoodPantries());
+        setFoodPantries(await getFoodPantries());
       } catch (e) {
         console.log(`Error: ${e}`);
       }
