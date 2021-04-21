@@ -1,5 +1,12 @@
+/* eslint-disable jest/no-disabled-tests */
 import AddressToLink from 'src/helpers/MapLinkFromAddress';
 import Parse from 'src/helpers/ParseQuery';
+import ParsePhone from 'src/helpers/PhoneLink';
+import LatLongFromAddress from 'src/helpers/LatLongFromString';
+import dotenv from 'dotenv';
+
+// Allow environment variables to function
+dotenv.config({ path: './.env.local' });
 
 describe('Address string to Google Maps URL Empty Cases', () => {
   test('Fail on Empty/Whitespace String', () => {
@@ -56,5 +63,31 @@ describe('Match query with type', () => {
     // expect(Parse('400 Winston Rd, Knoxville, TN 37909')).toBe(
     //  'add2'
     // );
+  });
+});
+
+describe('convert phone number in (xxx) xxx-xxxx to tel:xxx-xxx-xxxx', () => {
+  test('Conversion', () => {
+    expect(ParsePhone('(123) 456-7890')).toBe('tel:123-456-7890');
+    expect(ParsePhone('(999) 999-9999')).toBe('tel:999-999-9999');
+    expect(ParsePhone('hello')).toBe('error');
+  });
+});
+
+// Skipped below tests because they need API key to run on github actions
+// Can run locally (do pass)
+describe('Address string to Google Maps Lat and Long', () => {
+  test.skip('Fail on Empty/Whitespace String', async () => {
+    await expect(LatLongFromAddress('')).rejects.toThrowError('Empty Parameter address');
+    await expect(LatLongFromAddress('  ')).rejects.toThrowError('Empty Parameter address');
+    await expect(LatLongFromAddress('test string')).resolves.not.toThrow();
+  });
+
+  test.skip('function', async () => {
+    const [lat, lon] = (await LatLongFromAddress('1600 Pennsylvania Avenue NW, Washington, DC 20500')) ?? [null, null];
+    expect([lat, lon]).not.toBe([null, null]);
+    expect(lat).toBeCloseTo(38.898819);
+    expect(lon).toBeCloseTo(-77.03669);
+    await expect(LatLongFromAddress('Knoxville, TN 37996')).resolves.toBeTruthy();
   });
 });

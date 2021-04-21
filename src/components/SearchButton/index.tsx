@@ -1,4 +1,7 @@
-import React, { FunctionComponent, useRef, useState } from 'react';
+/* eslint-disable no-console */
+/* eslint-disable no-alert */
+import React, { FunctionComponent, useState } from 'react';
+import 'src/styles/main.css';
 import { FoodPantry } from 'src/utils/types';
 import Parse from 'src/helpers/ParseQuery';
 import 'src/styles/main.css';
@@ -19,27 +22,30 @@ const isInString = (str: string, text: string): boolean => {
 // Type Guard for Food Pantries
 const isFoodPantry = (item: Suggestion): item is FoodPantry => typeof item !== 'string' && 'name' in item;
 
+
 const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries }) => {
-  const searchInput = useRef<HTMLInputElement>(null);
+  const [searchInput, setSearchInput] = useState<string>('');
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
+  const [usingCurrLoc, setUsingCurrLoc] = useState<boolean>(false);
   const Counties: Set<string> = new Set<string>();
 
   pantries.forEach(pantry => Counties.add(pantry.county));
 
   const getSuggestions = (searchQuery: string | undefined, counties: string[]): Suggestion[] => {
     if (!searchQuery || searchQuery.length < 3) return [];
-
-    const CountyMatches = counties.filter(countyName => countyName.search(searchQuery) !== -1);
+    const query = searchQuery.toLowerCase();
+    const CountyMatches = counties.filter(countyName => countyName.toLowerCase().search(query) !== -1);
 
     const PantryMatches: FoodPantry[] = pantries.filter(
       pantry =>
-        pantry.name.search(searchQuery) !== -1 ||
-        pantry.address.streetName.search(searchQuery) !== -1 ||
-        pantry.county.search(searchQuery) !== -1
+        pantry.name.toLowerCase().search(query) !== -1 ||
+        pantry.address.streetName.toLowerCase().search(query) !== -1 ||
+        pantry.county.toLowerCase().search(query) !== -1
     );
 
     return [...CountyMatches.map(match => `${match} County`), ...PantryMatches].splice(0, 5);
   };
+
 
   // Filter Pantries on Enter
   const textFilterPantries = (text: string): FoodPantry[] => {
@@ -64,11 +70,34 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
     alert('Not found');
     return [];
   };
+  
+  async function OnClickcurloc() {
+    function getLongAndLat() {
+      return new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject));
+    }
+
+    try {
+      const position = (await getLongAndLat()) as GeolocationPosition;
+      const loc = position.coords;
+      setUsingCurrLoc(true);
+      setSearchInput('Current Location');
+      console.log(loc.longitude, loc.latitude);
+    } catch (e) {
+      console.log(e);
+      alert('could not get location');
+    }
+  };
 
   return (
     <>
       <h1 className="text">Search by clicking</h1>
-      <button className="Button" type="button">
+      <button
+        className="Button"
+        type="button"
+        onClick={() => {
+          OnClickcurloc();
+          setSuggestions([]);
+        }}>
         <svg
           className="PinSVG"
           width="15"
@@ -84,20 +113,88 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
         Current Location
       </button>
       <h1 className="text">or</h1>
-      <input
-        type="text"
-        className="searchArea"
-        ref={searchInput}
-        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
-          if (e.key === 'Enter') {
-            setFilteredPantries(textFilterPantries(searchInput.current?.value || ''));
-          }
-          setSuggestions(getSuggestions(searchInput.current?.value, Array.from(Counties)));
-        }}
-      />
-      {suggestions.map(suggest => (
-        <h1>{isFoodPantry(suggest) ? suggest.name : suggest}</h1>
-      ))}
+      <div className="searchBox">
+        <svg
+          className="searchGlass"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg">
+          <path
+            d="M17.1527 15.0943H16.0686L15.6844 14.7238C17.0292 13.1595 17.8388 11.1286 17.8388 8.91938C17.8388 3.99314 13.8456 0 8.91938 0C3.99314 0 0 3.99314 0 8.91938C0 13.8456 3.99314 17.8388 8.91938 17.8388C11.1286 17.8388 13.1595 17.0292 14.7238 15.6844L15.0943 16.0686V17.1527L21.9554 24L24 21.9554L17.1527 15.0943ZM8.91938 15.0943C5.50257 15.0943 2.74443 12.3362 2.74443 8.91938C2.74443 5.50257 5.50257 2.74443 8.91938 2.74443C12.3362 2.74443 15.0943 5.50257 15.0943 8.91938C15.0943 12.3362 12.3362 15.0943 8.91938 15.0943Z"
+            fill="black"
+          />
+        </svg>
+
+        <input
+          type="text"
+          className="searchArea"
+          value={searchInput}
+          style={{
+            borderRadius: suggestions.length > 0 ? '9px 9px 0 0' : '9px',
+            color: usingCurrLoc ? '#2486ff' : '#000000',
+          }}
+          placeholder="Search by location, Zip, or County"
+          onChange={e => {
+            if (!usingCurrLoc) {
+              setSearchInput(e.target.value);
+              setSuggestions(getSuggestions(e.target.value, Array.from(Counties)));
+            }
+          }}
+          onKeyDown={e => {
+            if (e.key === 'Enter') {
+              setFilteredPantries(textFilterPantries(searchInput.current?.value || ''));
+            }
+            if (usingCurrLoc && e.key === 'Backspace') {
+              setSearchInput('');
+              setUsingCurrLoc(false);
+            }
+          }}
+        />
+
+        {suggestions.length > 0 && (
+          <div className="SuggestionsContainer">
+            {suggestions.map(suggest => (
+              <button
+                className="Suggestions-Area"
+                key={isFoodPantry(suggest) ? suggest.name : suggest}
+                type="button"
+                onClick={() => {}}>
+                {isFoodPantry(suggest) ? (
+                  <svg
+                    className="SuggestionsPin"
+                    width="11"
+                    height="30"
+                    viewBox="0 0 16 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M8 2.5L14 7V16H2V7L8 2.5ZM8 0L0 6V18H16V6L8 0ZM7.5 6.5V9.5H7V6.5H6V9.5H5.5V6.5H4.5V9.5C4.5 10.33 5.17 11 6 11V15H7V11C7.83 11 8.5 10.33 8.5 9.5V6.5H7.5ZM9 8.5V11.5H10V15H11V6.5C9.9 6.5 9 7.4 9 8.5Z"
+                      fill="black"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="SuggestionsPin"
+                    width="11"
+                    height="30"
+                    viewBox="0 0 11 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M5.25 0C2.3475 0 0 2.3475 0 5.25C0 9.1875 5.25 15 5.25 15C5.25 15 10.5 9.1875 10.5 5.25C10.5 2.3475 8.1525 0 5.25 0ZM5.25 7.125C4.215 7.125 3.375 6.285 3.375 5.25C3.375 4.215 4.215 3.375 5.25 3.375C6.285 3.375 7.125 4.215 7.125 5.25C7.125 6.285 6.285 7.125 5.25 7.125Z"
+                      fill="black"
+                    />
+                  </svg>
+                )}
+
+                <h1 className="Suggestions-Text">{isFoodPantry(suggest) ? suggest.name : suggest}</h1>
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
     </>
   );
 };
