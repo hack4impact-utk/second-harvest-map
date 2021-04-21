@@ -14,9 +14,7 @@ interface Props {
 // Helper Function
 const isInString = (str: string, text: string): boolean => {
   return str.search(text) !== -1;
-}
-
-
+};
 
 // Type Guard for Food Pantries
 const isFoodPantry = (item: Suggestion): item is FoodPantry => typeof item !== 'string' && 'name' in item;
@@ -44,28 +42,28 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
   };
 
   // Filter Pantries on Enter
-  const textFilterPantries = (pantries: FoodPantry[], text: string): FoodPantry[] => {
+  const textFilterPantries = (text: string): FoodPantry[] => {
     // Search by data in pantry
-    const directSearch = pantries.filter(pantry => (
-      isInString(pantry.name, text)
-      || isInString(pantry.address.streetName, text)
-      || isInString(pantry.county, text)
-    ));
+    const directSearch = pantries.filter(
+      // I did not write it this way, linter forced me!
+      pantry =>
+        isInString(pantry.name, text) || isInString(pantry.address.streetName, text) || isInString(pantry.county, text)
+    );
 
     // Search as an adress
-    if(directSearch !== []) {
+    if (directSearch !== []) {
       return directSearch;
     }
 
     // If it is an adress, call server search
-    if(Parse(text) === "add1") {
+    if (Parse(text) === 'add1') {
       // return call server
     }
 
     // alert and return empty if no matches
     alert('Not found');
     return [];
-  }
+  };
 
   return (
     <>
@@ -90,14 +88,12 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
         type="text"
         className="searchArea"
         ref={searchInput}
-        onKeyDown={
-          (e: React.KeyboardEvent<HTMLInputElement>) => {
-            if(e.key = 'Enter') {
-              setFilteredPantries(textFilterPantries(pantries, searchInput.current?.value || ''));
-            }
-            setSuggestions(getSuggestions(searchInput.current?.value, Array.from(Counties)));
+        onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+          if (e.key === 'Enter') {
+            setFilteredPantries(textFilterPantries(searchInput.current?.value || ''));
           }
-        }
+          setSuggestions(getSuggestions(searchInput.current?.value, Array.from(Counties)));
+        }}
       />
       {suggestions.map(suggest => (
         <h1>{isFoodPantry(suggest) ? suggest.name : suggest}</h1>
