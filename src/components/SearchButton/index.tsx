@@ -1,7 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable no-alert */
 import React, { FunctionComponent, useState } from 'react';
-import 'src/styles/main.css';
 import { FoodPantry } from 'src/utils/types';
 import Parse from 'src/helpers/ParseQuery';
 import 'src/styles/main.css';
@@ -21,7 +20,6 @@ const isInString = (str: string, text: string): boolean => {
 
 // Type Guard for Food Pantries
 const isFoodPantry = (item: Suggestion): item is FoodPantry => typeof item !== 'string' && 'name' in item;
-
 
 const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries }) => {
   const [searchInput, setSearchInput] = useState<string>('');
@@ -46,7 +44,6 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
     return [...CountyMatches.map(match => `${match} County`), ...PantryMatches].splice(0, 5);
   };
 
-
   // Filter Pantries on Enter
   const textFilterPantries = (text: string): FoodPantry[] => {
     // Search by data in pantry
@@ -70,7 +67,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
     alert('Not found');
     return [];
   };
-  
+
   async function OnClickcurloc() {
     function getLongAndLat() {
       return new Promise((resolve, reject) => navigator.geolocation.getCurrentPosition(resolve, reject));
@@ -86,7 +83,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
       console.log(e);
       alert('could not get location');
     }
-  };
+  }
 
   return (
     <>
@@ -144,7 +141,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
           }}
           onKeyDown={e => {
             if (e.key === 'Enter') {
-              setFilteredPantries(textFilterPantries(searchInput.current?.value || ''));
+              setFilteredPantries(textFilterPantries(searchInput || ''));
             }
             if (usingCurrLoc && e.key === 'Backspace') {
               setSearchInput('');
