@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useRef, useState } from 'react';
-import 'src/styles/main.css';
 import { FoodPantry } from 'src/utils/types';
+import Parse from 'src/helpers/ParseQuery';
+import 'src/styles/main.css';
 import './searchArea.css';
 
 type Suggestion = FoodPantry | string;
@@ -8,6 +9,13 @@ type Suggestion = FoodPantry | string;
 interface Props {
   pantries: FoodPantry[];
 }
+
+// Helper Function
+const isInString = (str: string, text: string): boolean => {
+  return str.search(text) !== -1;
+}
+
+
 
 // Type Guard for Food Pantries
 const isFoodPantry = (item: Suggestion): item is FoodPantry => typeof item !== 'string' && 'name' in item;
@@ -33,6 +41,31 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
 
     return [...CountyMatches.map(match => `${match} County`), ...PantryMatches].splice(0, 5);
   };
+
+  // Filter Pantries on Enter
+  const textFilterPantries = (pantries: FoodPantry[], text: string): FoodPantry[] => {
+    // Search by data in pantry
+    const directSearch = pantries.filter(pantry => (
+      isInString(pantry.name, text)
+      || isInString(pantry.address.streetName, text)
+      || isInString(pantry.county, text)
+    ))
+
+    // Srarch as an adress
+    if(directSearch !== []) {
+      return directSearch;
+    }
+
+    // If it is an adress, call server search
+    if(Parse(text) === "add1") {
+      // return call server
+    }
+
+    // return empty if no matches
+    return [];
+  }
+
+  // const handleFilteredPantries = (fPantries: FoodPantry[], modifyState: void): React
 
   return (
     <>

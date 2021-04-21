@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './styles/main.css';
 import './App.css';
 import FoodPantryDisplay from './components/FoodPantryDisplay/index';
+import SearchButton from './components/SearchButton/index';
 
 function App(): JSX.Element {
   return (
