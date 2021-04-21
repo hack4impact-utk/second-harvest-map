@@ -8,6 +8,7 @@ type Suggestion = FoodPantry | string;
 
 interface Props {
   pantries: FoodPantry[];
+  setFilteredPantries(pantries: FoodPantry[]): void;
 }
 
 // Helper Function
@@ -20,7 +21,7 @@ const isInString = (str: string, text: string): boolean => {
 // Type Guard for Food Pantries
 const isFoodPantry = (item: Suggestion): item is FoodPantry => typeof item !== 'string' && 'name' in item;
 
-const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
+const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries }) => {
   const searchInput = useRef<HTMLInputElement>(null);
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const Counties: Set<string> = new Set<string>();
@@ -49,7 +50,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
       isInString(pantry.name, text)
       || isInString(pantry.address.streetName, text)
       || isInString(pantry.county, text)
-    ))
+    ));
 
     // Search as an adress
     if(directSearch !== []) {
@@ -61,12 +62,10 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
       // return call server
     }
 
-    // return empty if no matches
+    // alert and return empty if no matches
     alert('Not found');
     return [];
   }
-
-  // const handleFilteredPantries = (fPantries: FoodPantry[], modifyState: void): React
 
   return (
     <>
@@ -92,7 +91,10 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
         className="searchArea"
         ref={searchInput}
         onKeyDown={
-          (/* USE LATER FOR ENTER KEY: e: React.KeyboardEvent<HTMLInputElement> */) => {
+          (e: React.KeyboardEvent<HTMLInputElement>) => {
+            if(e.key = 'Enter') {
+              setFilteredPantries(textFilterPantries(pantries, searchInput.current?.value || ''));
+            }
             setSuggestions(getSuggestions(searchInput.current?.value, Array.from(Counties)));
           }
         }

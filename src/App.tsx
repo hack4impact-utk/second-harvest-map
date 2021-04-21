@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FoodPantry } from 'src/utils/types';
+
 import logo from './logo.svg';
 import './styles/main.css';
 import './App.css';
@@ -6,6 +8,8 @@ import FoodPantryDisplay from './components/FoodPantryDisplay/index';
 import SearchButton from './components/SearchButton/index';
 
 function App(): JSX.Element {
+  const [filteredPantries, setFilteredPantries] = useState<FoodPantry[]>([]);
+
   return (
     <div className="App">
       <header className="App-header">
