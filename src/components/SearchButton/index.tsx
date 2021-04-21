@@ -24,14 +24,14 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
 
   const getSuggestions = (searchQuery: string | undefined, counties: string[]): Suggestion[] => {
     if (!searchQuery || searchQuery.length < 3) return [];
-
-    const CountyMatches = counties.filter(countyName => countyName.search(searchQuery) !== -1);
+    const query = searchQuery.toLowerCase();
+    const CountyMatches = counties.filter(countyName => countyName.toLowerCase().search(query) !== -1);
 
     const PantryMatches: FoodPantry[] = pantries.filter(
       pantry =>
-        pantry.name.search(searchQuery) !== -1 ||
-        pantry.address.streetName.search(searchQuery) !== -1 ||
-        pantry.county.search(searchQuery) !== -1
+        pantry.name.toLowerCase().search(query) !== -1 ||
+        pantry.address.streetName.toLowerCase().search(query) !== -1 ||
+        pantry.county.toLowerCase().search(query) !== -1
     );
 
     return [...CountyMatches.map(match => `${match} County`), ...PantryMatches].splice(0, 5);
@@ -97,21 +97,66 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
           type="text"
           className="searchArea"
           value={searchInput}
-          style={usingCurrLoc ? { color: '#2486ff' } : {}}
+          style={{
+            borderRadius: suggestions.length > 0 ? '9px 9px 0 0' : '9px',
+            color: usingCurrLoc ? '#2486ff' : '#000000',
+          }}
           placeholder="Search by location, Zip, or County"
-          onChange={e => !usingCurrLoc && setSearchInput(e.target.value)}
+          onChange={e => {
+            if (!usingCurrLoc) {
+              setSearchInput(e.target.value);
+              setSuggestions(getSuggestions(e.target.value, Array.from(Counties)));
+            }
+          }}
           onKeyDown={e => {
             if (usingCurrLoc && e.key === 'Backspace') {
               setSearchInput('');
               setUsingCurrLoc(false);
-            } else {
-              setSuggestions(getSuggestions(searchInput, Array.from(Counties)));
             }
           }}
         />
-        {suggestions.map(suggest => (
-          <h1>{isFoodPantry(suggest) ? suggest.name : suggest}</h1>
-        ))}
+
+        {suggestions.length > 0 && (
+          <div className="SuggestionsContainer">
+            {suggestions.map(suggest => (
+              <button
+                className="Suggestions-Area"
+                key={isFoodPantry(suggest) ? suggest.name : suggest}
+                type="button"
+                onClick={() => {}}>
+                {isFoodPantry(suggest) ? (
+                  <svg
+                    className="SuggestionsPin"
+                    width="11"
+                    height="30"
+                    viewBox="0 0 16 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M8 2.5L14 7V16H2V7L8 2.5ZM8 0L0 6V18H16V6L8 0ZM7.5 6.5V9.5H7V6.5H6V9.5H5.5V6.5H4.5V9.5C4.5 10.33 5.17 11 6 11V15H7V11C7.83 11 8.5 10.33 8.5 9.5V6.5H7.5ZM9 8.5V11.5H10V15H11V6.5C9.9 6.5 9 7.4 9 8.5Z"
+                      fill="black"
+                    />
+                  </svg>
+                ) : (
+                  <svg
+                    className="SuggestionsPin"
+                    width="11"
+                    height="30"
+                    viewBox="0 0 11 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M5.25 0C2.3475 0 0 2.3475 0 5.25C0 9.1875 5.25 15 5.25 15C5.25 15 10.5 9.1875 10.5 5.25C10.5 2.3475 8.1525 0 5.25 0ZM5.25 7.125C4.215 7.125 3.375 6.285 3.375 5.25C3.375 4.215 4.215 3.375 5.25 3.375C6.285 3.375 7.125 4.215 7.125 5.25C7.125 6.285 6.285 7.125 5.25 7.125Z"
+                      fill="black"
+                    />
+                  </svg>
+                )}
+
+                <h1 className="Suggestions-Text">{isFoodPantry(suggest) ? suggest.name : suggest}</h1>
+              </button>
+            ))}
+          </div>
+        )}
       </div>
     </>
   );
