@@ -51,7 +51,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
       || isInString(pantry.county, text)
     ))
 
-    // Srarch as an adress
+    // Search as an adress
     if(directSearch !== []) {
       return directSearch;
     }
@@ -62,6 +62,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
     }
 
     // return empty if no matches
+    alert('Not found');
     return [];
   }
 
