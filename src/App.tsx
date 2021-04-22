@@ -16,6 +16,7 @@ function App(): JSX.Element {
       try {
         setFoodPantries(await getFoodPantries());
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.log(`Error: ${e}`);
       }
     };
