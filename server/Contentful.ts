@@ -11,7 +11,6 @@ const client = createClient({ accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN
  */
 export default async function getFoodPantries(): Promise<FoodPantry[]> {
   const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
-
   const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
   const entries = await environment.getEntries({
     content_type: 'foodPantry',
