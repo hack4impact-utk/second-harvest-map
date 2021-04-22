@@ -37,7 +37,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
     const PantryMatches: FoodPantry[] = pantries.filter(
       pantry =>
         pantry.name.toLowerCase().search(query) !== -1 ||
-        pantry.address.streetName.toLowerCase().search(query) !== -1 ||
+        pantry.address.toLowerCase().search(query) !== -1 ||
         pantry.county.toLowerCase().search(query) !== -1
     );
 
@@ -49,8 +49,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
     // Search by data in pantry
     const directSearch = pantries.filter(
       // I did not write it this way, linter forced me!
-      pantry =>
-        isInString(pantry.name, text) || isInString(pantry.address.streetName, text) || isInString(pantry.county, text)
+      pantry => isInString(pantry.name, text) || isInString(pantry.address, text) || isInString(pantry.county, text)
     );
 
     // Search as an adress
