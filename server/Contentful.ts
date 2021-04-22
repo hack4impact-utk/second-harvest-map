@@ -8,11 +8,16 @@ const client = createClient({
   accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN as string,
 });
 
+console.log('set client');
+
 /**
  * @returns An array filled with Food Pantry Entries retrieved.
  */
 export default async function getFoodPantries(): Promise<FoodPantry[]> {
+  console.log("Inside getFoodPantries");
+  console.log(process.env.CONTENTFUL_SPACE);
   const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
+  console.log("got space");
   const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
   const entries = await environment.getEntries({
     content_type: 'foodPantry',
@@ -37,6 +42,8 @@ export default async function getFoodPantries(): Promise<FoodPantry[]> {
       foodPantries.push(foodPantry);
     }
   }
+
+  console.log(foodPantries);
 
   return foodPantries;
 }
