@@ -1,0 +1,11 @@
+.pantryContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+@media screen and (max-width: 700px) {
+  .pantryContainer {
+    flex-direction: column;
+  }
+}
