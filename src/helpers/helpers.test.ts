@@ -1,6 +1,7 @@
 import AddressToLink from 'src/helpers/MapLinkFromAddress';
 import Parse from 'src/helpers/ParseQuery';
 import ParsePhone from 'src/helpers/PhoneLink';
+import getNNearest from './../../server/NNearest';
 
 describe('Address string to Google Maps URL Empty Cases', () => {
   test('Fail on Empty/Whitespace String', () => {
@@ -65,5 +66,11 @@ describe('convert phone number in (xxx) xxx-xxxx to tel:xxx-xxx-xxxx', () => {
     expect(ParsePhone('(123) 456-7890')).toBe('tel:123-456-7890');
     expect(ParsePhone('(999) 999-9999')).toBe('tel:999-999-9999');
     expect(ParsePhone('hello')).toBe('error');
+  });
+});
+
+describe('Test get NNearest', () => {
+  test('Get NNearest', () => {
+    expect(getNNearest(35.9585682,-83.9249317, 3)).toBe([0, 1, 2]);
   });
 });
