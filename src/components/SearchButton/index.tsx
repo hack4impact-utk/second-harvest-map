@@ -1,20 +1,27 @@
 /* eslint-disable no-console */
 /* eslint-disable no-alert */
 import React, { FunctionComponent, useState } from 'react';
-import 'src/styles/main.css';
 import { FoodPantry } from 'src/utils/types';
+import Parse from 'src/helpers/ParseQuery';
+import 'src/styles/main.css';
 import './searchArea.css';
 
 type Suggestion = FoodPantry | string;
 
 interface Props {
   pantries: FoodPantry[];
+  setFilteredPantries(pantries: FoodPantry[]): void;
 }
+
+// Helper Function
+const isInString = (str: string, text: string): boolean => {
+  return str.search(text) !== -1;
+};
 
 // Type Guard for Food Pantries
 const isFoodPantry = (item: Suggestion): item is FoodPantry => typeof item !== 'string' && 'name' in item;
 
-const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
+const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries }) => {
   const [searchInput, setSearchInput] = useState<string>('');
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [usingCurrLoc, setUsingCurrLoc] = useState<boolean>(false);
@@ -35,6 +42,30 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
     );
 
     return [...CountyMatches.map(match => `${match} County`), ...PantryMatches].splice(0, 5);
+  };
+
+  // Filter Pantries on Enter
+  const textFilterPantries = (text: string): FoodPantry[] => {
+    // Search by data in pantry
+    const directSearch = pantries.filter(
+      // I did not write it this way, linter forced me!
+      pantry =>
+        isInString(pantry.name, text) || isInString(pantry.address.streetName, text) || isInString(pantry.county, text)
+    );
+
+    // Search as an adress
+    if (directSearch !== []) {
+      return directSearch;
+    }
+
+    // If it is an adress, call server search
+    if (Parse(text) === 'add1') {
+      // return call server
+    }
+
+    // alert and return empty if no matches
+    alert('Not found');
+    return [];
   };
 
   async function OnClickcurloc() {
@@ -109,6 +140,9 @@ const SearchButton: FunctionComponent<Props> = ({ pantries }) => {
             }
           }}
           onKeyDown={e => {
+            if (e.key === 'Enter') {
+              setFilteredPantries(textFilterPantries(searchInput || ''));
+            }
             if (usingCurrLoc && e.key === 'Backspace') {
               setSearchInput('');
               setUsingCurrLoc(false);

@@ -8,7 +8,8 @@ import './App.css';
 
 function App(): JSX.Element {
   // Pass foodPantries to other components
-  const [foodPantries, setFoodPantries] = useState<FoodPantry[] | undefined>([]);
+  const [foodPantries, setFoodPantries] = useState<FoodPantry[]>([]);
+  const [filteredPantries, setFilteredPantries] = useState<FoodPantry[]>([]);
 
   useEffect(() => {
     const gatherData = async () => {
@@ -25,8 +26,8 @@ function App(): JSX.Element {
   return (
     <div className="App">
       <header className="App-header">
-        <FoodPantryDisplay pantries={[]} />
-        <SearchButton pantries={[]} />
+        <FoodPantryDisplay pantries={filteredPantries} />
+        <SearchButton pantries={foodPantries} setFilteredPantries={setFilteredPantries} />
       </header>
     </div>
   );
