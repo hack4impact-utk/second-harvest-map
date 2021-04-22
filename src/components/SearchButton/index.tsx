@@ -15,7 +15,8 @@ interface Props {
 
 // Helper Function
 const isInString = (str: string, text: string): boolean => {
-  return str.search(text) !== -1;
+  const safeText = text.replace(/\W/g, '').toLowerCase();
+  return str.toLowerCase().search(safeText) !== -1;
 };
 
 // Type Guard for Food Pantries
@@ -31,7 +32,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
 
   const getSuggestions = (searchQuery: string | undefined, counties: string[]): Suggestion[] => {
     if (!searchQuery || searchQuery.length < 3) return [];
-    const query = searchQuery.toLowerCase();
+    const query = searchQuery.toLowerCase().replace(/\W/g, '');
     const CountyMatches = counties.filter(countyName => countyName.toLowerCase().search(query) !== -1);
 
     const PantryMatches: FoodPantry[] = pantries.filter(
