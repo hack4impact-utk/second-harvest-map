@@ -2,22 +2,15 @@ import { createClient } from 'contentful-management';
 import { FoodPantry } from 'src/utils/types';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: '../.env.local' });
+dotenv.config({ path: './.env.local' });
 
-console.log(process.env.CONTENTFUL_PERSONAL_TOKEN);
-
-const client = createClient({ accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN as string,
-});
+const client = createClient({ accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN as string });
 
 /**
  * @returns An array filled with Food Pantry Entries retrieved.
  */
 export default async function getFoodPantries(): Promise<FoodPantry[]> {
-  console.log("Inside getFoodPantries");
-  console.log(process.env.CONTENTFUL_SPACE);
-
   const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
-  console.log("got space");
 
   const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
   const entries = await environment.getEntries({
@@ -43,8 +36,6 @@ export default async function getFoodPantries(): Promise<FoodPantry[]> {
       foodPantries.push(foodPantry);
     }
   }
-
-  console.log(foodPantries);
 
   return foodPantries;
 }
