@@ -4,11 +4,10 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: '../.env.local' });
 
-const client = createClient({
-  accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN as string,
-});
+console.log(process.env.CONTENTFUL_PERSONAL_TOKEN);
 
-console.log('set client');
+const client = createClient({ accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN as string,
+});
 
 /**
  * @returns An array filled with Food Pantry Entries retrieved.
@@ -16,8 +15,10 @@ console.log('set client');
 export default async function getFoodPantries(): Promise<FoodPantry[]> {
   console.log("Inside getFoodPantries");
   console.log(process.env.CONTENTFUL_SPACE);
+
   const space = await client.getSpace(process.env.CONTENTFUL_SPACE as string);
   console.log("got space");
+
   const environment = await space.getEnvironment(process.env.CONTENTFUL_ENVIRONMENT as string);
   const entries = await environment.getEntries({
     content_type: 'foodPantry',
