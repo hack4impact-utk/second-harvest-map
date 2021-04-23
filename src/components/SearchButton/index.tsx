@@ -3,6 +3,7 @@
 import React, { FunctionComponent, useState } from 'react';
 import { FoodPantry } from 'src/utils/types';
 import Parse from 'src/helpers/ParseQuery';
+import { API_URL, API_PATHS } from 'src/utils/env';
 import 'src/styles/main.css';
 import './searchArea.css';
 
@@ -76,9 +77,15 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
     try {
       const position = (await getLongAndLat()) as GeolocationPosition;
       const loc = position.coords;
-      setUsingCurrLoc(true);
-      setSearchInput('Current Location');
-      console.log(loc.longitude, loc.latitude);
+      const Names = (await (
+        await fetch(`${API_URL}/${API_PATHS.GET_PANTRIES}?lat=${loc.latitude}&lon=${loc.longitude}`)
+      ).json()) as string[];
+      if (Names.length > 0) {
+        setUsingCurrLoc(true);
+        setSearchInput('Current Location');
+        setFilteredPantries(pantries.filter(pantry => Names.includes(pantry.name)));
+        console.log(loc.longitude, loc.latitude);
+      }
     } catch (e) {
       console.log(e);
       alert('could not get location');
