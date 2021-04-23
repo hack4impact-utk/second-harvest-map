@@ -5,8 +5,6 @@ dotenv.config({ path: '../.env.local' });
 
 export default async function getNNearest(lat: number, long: number, n: number) {
 
-    console.log('Hello');
-
     const getPantriesList = await getFoodPantries();
 
     console.log("Got pantry list");
