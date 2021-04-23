@@ -11,7 +11,7 @@ const getFoodPantries = async (): Promise<FoodPantry[]> => {
   const data = await response.json();
 
   // To be changed later as we create Express REST API
-  return data.foodPantries;
+  return data;
 };
 
 export default getFoodPantries;

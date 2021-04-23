@@ -28,9 +28,7 @@ const FoodPantryCard: FunctionComponent<Props> = ({ pantry }) => {
               fill="black"
             />
           </svg>
-          <h1 className="pantry_address">
-            {pantry.address.streetNumber} {pantry.address.streetName}, {pantry.address.zipCode}
-          </h1>
+          <h1 className="pantry_address">{pantry.address}</h1>
         </div>
 
         <div className="number">

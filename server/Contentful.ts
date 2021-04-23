@@ -20,20 +20,22 @@ export default async function getFoodPantries(): Promise<FoodPantry[]> {
 
   const foodPantries: FoodPantry[] = [];
   for (let i = 0; i < entries.total; i += 1) {
-    const foodPantry: FoodPantry = {
-      name: entries.items[i].fields.pantryName['en-US'],
-      address: entries.items[i].fields.address['en-US'],
-      phoneNumber: entries.items[i].fields.phoneNumber['en-US'],
-      position: {
-        latitude: entries.items[i].fields.position['en-US'].lat,
-        longitude: entries.items[i].fields.position['en-US'].lon,
-      },
-      county: entries.items[i].fields.county['en-US'],
-      website: 'website' in entries.items[i].fields ? entries.items[i].fields.website['en-US'] : null,
-      email: 'email' in entries.items[i].fields ? entries.items[i].fields.email['en-US'] : null,
-    };
+    if (entries.items[i].isPublished()) {
+      const foodPantry: FoodPantry = {
+        name: entries.items[i].fields.pantryName['en-US'],
+        address: entries.items[i].fields.address['en-US'],
+        phoneNumber: entries.items[i].fields.phoneNumber['en-US'],
+        position: {
+          latitude: entries.items[i].fields.position['en-US'].lat,
+          longitude: entries.items[i].fields.position['en-US'].lon,
+        },
+        county: entries.items[i].fields.county['en-US'],
+        website: 'website' in entries.items[i].fields ? entries.items[i].fields.website['en-US'] : null,
+        email: 'email' in entries.items[i].fields ? entries.items[i].fields.email['en-US'] : null,
+      };
 
-    foodPantries.push(foodPantry);
+      foodPantries.push(foodPantry);
+    }
   }
 
   return foodPantries;

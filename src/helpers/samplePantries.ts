@@ -3,11 +3,7 @@ import { FoodPantry } from 'src/utils/types';
 const SampleFoodPantries: FoodPantry[] = [
   {
     name: 'Dante Church of God',
-    address: {
-      streetNumber: 410,
-      streetName: 'Dante School Road Knoxville, TN',
-      zipCode: 37918,
-    },
+    address: '410 Dante School Road Knoxville, TN 37918',
     county: 'Knox',
     position: {
       latitude: 36.031195548220644,
@@ -17,11 +13,7 @@ const SampleFoodPantries: FoodPantry[] = [
   },
   {
     name: 'Knox Free Food Market',
-    address: {
-      streetNumber: 6709,
-      streetName: 'Maynardville Pike Knoxville, TN',
-      zipCode: 37918,
-    },
+    address: '6709 Maynardville Pike Knoxville, TN 37918',
     county: 'Knox',
     position: {
       latitude: 36.06860492536348,
@@ -31,11 +23,7 @@ const SampleFoodPantries: FoodPantry[] = [
   },
   {
     name: 'Chilhowee Baptist Center',
-    address: {
-      streetNumber: 1905,
-      streetName: 'E Broadway Maryville, TN',
-      zipCode: 37804,
-    },
+    address: '1905 E Broadway Maryville, TN 37804',
     county: 'Blount',
     position: {
       latitude: 35.77472539392523,

@@ -16,6 +16,7 @@ function App(): JSX.Element {
       try {
         setFoodPantries(await getFoodPantries());
       } catch (e) {
+        // eslint-disable-next-line no-console
         console.log(`Error: ${e}`);
       }
     };
@@ -26,8 +27,8 @@ function App(): JSX.Element {
   return (
     <div className="App">
       <header className="App-header">
-        <FoodPantryDisplay pantries={filteredPantries} />
         <SearchButton pantries={foodPantries} setFilteredPantries={setFilteredPantries} />
+        <FoodPantryDisplay pantries={filteredPantries} />
       </header>
     </div>
   );

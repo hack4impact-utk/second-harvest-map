@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { FoodPantry } from 'src/utils/types';
 import FoodPantryCard from 'src/components/FoodPantryCard/index';
+import './foodpantryContainer.css';
 
 interface Props {
   pantries: FoodPantry[];
@@ -8,7 +9,7 @@ interface Props {
 
 const FoodPantryContainer: FunctionComponent<Props> = ({ pantries }) => {
   return (
-    <div>
+    <div className="pantryContainer">
       {pantries.map(pantry => (
         <FoodPantryCard key={pantry.name} pantry={pantry} />
       ))}
