@@ -6,7 +6,7 @@ import LatLongFromAddress from 'src/helpers/LatLongFromString';
 import dotenv from 'dotenv';
 
 // Allow environment variables to function
-dotenv.config({ path: './.env.local' });
+dotenv.config({ path: '../.env.local' });
 
 describe('Address string to Google Maps URL Empty Cases', () => {
   test('Fail on Empty/Whitespace String', () => {

@@ -2,7 +2,7 @@ import { createClient } from 'contentful-management';
 import { FoodPantry } from 'src/utils/types';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: './.env.local' });
+dotenv.config({ path: '../.env.local' });
 
 const client = createClient({ accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN as string });
 
