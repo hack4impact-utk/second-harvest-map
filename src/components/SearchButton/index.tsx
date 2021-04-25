@@ -16,8 +16,9 @@ interface Props {
 
 // Helper Function
 const isInString = (str: string, text: string): boolean => {
-  const safeText = text.replace(/\W/g, '').toLowerCase();
-  return str.toLowerCase().search(safeText) !== -1;
+  console.log(`Comparing ${text.toLowerCase()} and ${str.toLowerCase()}`);
+  const safeText = text.toLowerCase();
+  return str.toLowerCase().includes(safeText);
 };
 
 // Type Guard for Food Pantries
@@ -33,14 +34,14 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
 
   const getSuggestions = (searchQuery: string | undefined, counties: string[]): Suggestion[] => {
     if (!searchQuery || searchQuery.length < 3) return [];
-    const query = searchQuery.toLowerCase().replace(/\W/g, '');
-    const CountyMatches = counties.filter(countyName => countyName.toLowerCase().search(query) !== -1);
+    const query = searchQuery.toLowerCase();
+    const CountyMatches = counties.filter(countyName => countyName.toLowerCase().includes(query));
 
     const PantryMatches: FoodPantry[] = pantries.filter(
       pantry =>
-        pantry.name.toLowerCase().search(query) !== -1 ||
-        pantry.address.toLowerCase().search(query) !== -1 ||
-        pantry.county.toLowerCase().search(query) !== -1
+        pantry.name.toLowerCase().includes(query) ||
+        pantry.address.toLowerCase().includes(query) ||
+        pantry.county.toLowerCase().includes(query)
     );
 
     return [...CountyMatches.map(match => `${match} County`), ...PantryMatches].splice(0, 5);
@@ -151,9 +152,10 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
               setFilteredPantries(textFilterPantries(searchInput || ''));
               setSuggestions([]);
             }
-            if (usingCurrLoc && e.key === 'Backspace') {
+            if ((usingCurrLoc || searchInput === '') && e.key === 'Backspace') {
               setSearchInput('');
               setUsingCurrLoc(false);
+              setFilteredPantries(pantries);
             }
           }}
         />
@@ -165,7 +167,14 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
                 className="Suggestions-Area"
                 key={isFoodPantry(suggest) ? suggest.name : suggest}
                 type="button"
-                onClick={() => {}}>
+                onClick={() => {
+                  const nameToSearch = isFoodPantry(suggest) ? suggest.name : suggest.replace(' County', '');
+                  console.log(nameToSearch);
+                  const pantriesFiltered = textFilterPantries(nameToSearch);
+                  setFilteredPantries(pantriesFiltered);
+                  setSearchInput(isFoodPantry(suggest) ? suggest.name : suggest);
+                  setSuggestions([]);
+                }}>
                 {isFoodPantry(suggest) ? (
                   <svg
                     className="SuggestionsPin"
