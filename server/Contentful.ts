@@ -4,9 +4,7 @@ import dotenv from 'dotenv';
 
 dotenv.config({ path: '../.env.local' });
 
-const client = createClient({
-  accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN as string,
-});
+const client = createClient({ accessToken: process.env.CONTENTFUL_PERSONAL_TOKEN as string });
 
 /**
  * @returns An array filled with Food Pantry Entries retrieved.
