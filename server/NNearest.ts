@@ -21,25 +21,19 @@ interface DistanceMatrix {
     elements: Array<DistanceElement>;
   }>;
 }
-
+/**
+ * Returns indices of pantry list in order of n closest to point
+ * @param lat latitude
+ * @param long longitude
+ * @param n number of closest pantries
+ * @returns array of indices
+ */
 export default async function getNNearest(lat: number, long: number, n = 9): Promise<string[]> {
   const PantriesList = await getFoodPantries();
 
   let distanceMatApi = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=';
-  // distanceMatApi = distanceMatApi + lat.toString() + ',' + long.toString() + '&destinations=';
 
   distanceMatApi = `${distanceMatApi}${lat.toString()},${long.toString()}&destinations=`;
-
-  // for (let index of PantriesList) {
-  //   distanceMatApi =
-  //     distanceMatApi +
-  //     PantriesList[index].position.latitude.toString() +
-  //     '%2C' +
-  //     PantriesList[index].position.latitude.toString();
-  //   if (+index < PantriesList.length - 1) {
-  //     distanceMatApi = distanceMatApi + '%7C';
-  //   }
-  // }
 
   PantriesList.forEach((_, index) => {
     distanceMatApi = `${distanceMatApi}${PantriesList[index].position.latitude.toString()}%2C${PantriesList[
@@ -58,11 +52,7 @@ export default async function getNNearest(lat: number, long: number, n = 9): Pro
       const obj = (await response.json()) as DistanceMatrix;
       const Rows = obj.rows;
       const distList: number[] = [];
-      // for (let i of obj.rows) {
-      //   for (let j of obj.rows[i].elements) {
-      //     distList.push(obj.rows[i].elements[j].distance.value);
-      //   }
-      // }
+
       Rows.forEach(outer => {
         outer.elements.forEach(inner => distList.push(inner.distance.value));
       });
@@ -74,9 +64,6 @@ export default async function getNNearest(lat: number, long: number, n = 9): Pro
       distances.sort((a, b) => a.value - b.value);
 
       const retList = distances.map(dist => PantriesList[dist.index].name).splice(0, n);
-      // for (let i = 0; i < n; i += 1) {
-      //   retList.push(PantriesList[distances[i].index].name);
-      // }
 
       return retList;
     }
