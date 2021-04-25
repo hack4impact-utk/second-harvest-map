@@ -14,7 +14,9 @@ function App(): JSX.Element {
   useEffect(() => {
     const gatherData = async () => {
       try {
-        setFoodPantries(await getFoodPantries());
+        const allPantries = await getFoodPantries();
+        setFoodPantries(allPantries);
+        setFilteredPantries(allPantries);
       } catch (e) {
         // eslint-disable-next-line no-console
         console.log(`Error: ${e}`);
