@@ -149,6 +149,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
           onKeyDown={e => {
             if (e.key === 'Enter') {
               setFilteredPantries(textFilterPantries(searchInput || ''));
+              setSuggestions([]);
             }
             if (usingCurrLoc && e.key === 'Backspace') {
               setSearchInput('');
