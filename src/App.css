@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  justify-content: center;
 }
 
 .App-logo {
@@ -28,11 +29,47 @@
   color: #61dafb;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.MapArea {
+  margin-top: 20px;
+  justify-content: center;
+  position: relative;
+  border-top: 2px solid #000000;
+}
+
+.wordMap {
+  font-size: 90px;
+  font-family: Palatino Linotype;
+  font-weight: bold;
+  color: #47590f;
+}
+
+.TextArea {
+  width: 400px;
+  justify-content: center;
+  margin-left: 150px;
+}
+
+.Map {
+  display: flex;
+  flex-direction: horizontal;
+  justify-content: center;
+  justify-self: center;
+  width: 1200px;
+  height: 550px;
+}
+
+.MapText {
+  width: 400px;
+  text-align: left;
+  font-size: 23px;
+  word-wrap: break-word;
+  color: #7d7474;
+  padding-left: 15px;
+  margin-top: -6px;
+  line-height: 27px;
+}
+
+.CountyImage {
+  height: 430px;
+  margin-left: -110px;
 }
