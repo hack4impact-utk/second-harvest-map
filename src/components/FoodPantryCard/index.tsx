@@ -2,6 +2,7 @@ import '../../styles/main.css';
 import React, { FunctionComponent } from 'react';
 import { FoodPantry } from 'src/utils/types';
 import './pantryCard.css';
+import MapLinkFromAddress from 'src/helpers/MapLinkFromAddress';
 
 interface Props {
   pantry: FoodPantry;
@@ -94,9 +95,11 @@ const FoodPantryCard: FunctionComponent<Props> = ({ pantry }) => {
         )}
       </div>
 
-      <button type="button" className="get_directions">
-        Get Directions
-      </button>
+      <a target="_blank" rel="noopener noreferrer" href={MapLinkFromAddress(pantry.address)}>
+        <button type="button" className="get_directions">
+          Get Directions
+        </button>
+      </a>
     </div>
   );
 };
