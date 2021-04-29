@@ -9,7 +9,7 @@ interface Props {
 
 const MapContainer: FunctionComponent<Props> = ({ pantries }) => {
   return (
-    <div style={{ height: '100vh', width: '100%' }}>
+    <div className="Map">
       <Map
         bootstrapURLKeys={{ key: process.env.REACT_APP_GOOGLE_MAP_KEY ?? '' }}
         defaultCenter={{ lat: 35.96, lng: -83.92 }}
