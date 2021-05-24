@@ -3,17 +3,6 @@
   justify-content: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
 .App-header {
   background-color: #ffffff;
   min-height: 100vh;
@@ -21,7 +10,6 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
   color: white;
 }
 
@@ -30,7 +18,7 @@
 }
 
 .MapArea {
-  margin-top: 20px;
+  margin-top: 40px;
   justify-content: center;
   position: relative;
   border-top: 2px solid #000000;
@@ -51,7 +39,7 @@
 
 .Map {
   display: flex;
-  flex-direction: horizontal;
+  flex-direction: row;
   justify-content: center;
   justify-self: center;
   width: 1200px;
@@ -61,7 +49,8 @@
 .MapText {
   width: 400px;
   text-align: left;
-  font-size: 23px;
+  font-family: var(--normal-font-family);
+  font-size: 20px;
   word-wrap: break-word;
   color: #7d7474;
   padding-left: 15px;
@@ -72,4 +61,28 @@
 .CountyImage {
   height: 430px;
   margin-left: -110px;
+}
+
+@media screen and (max-width: 1200px) {
+  .Map {
+    flex-direction: column;
+    width: 400px;
+    height: 1000px;
+    margin-left: 0px;
+  }
+
+  .MapText {
+    padding-left: 0px;
+  }
+
+  .TextArea {
+    margin-top: 30px;
+    width: 300px;
+    margin-left: 0px;
+  }
+
+  .CountyImage {
+    height: 280px;
+    margin-left: 0px;
+  }
 }

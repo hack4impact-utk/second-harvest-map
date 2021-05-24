@@ -11,8 +11,11 @@ interface Props {
 const FoodPantryCard: FunctionComponent<Props> = ({ pantry }) => {
   return (
     <div className="Card">
-      <h1 className="pantry_name"> {pantry.name}</h1>
-
+      <div className="name_container">
+        <h1 className="pantry_name" style={{ fontSize: pantry.name.length < 40 ? 24 : 18 }}>
+          {pantry.name}
+        </h1>
+      </div>
       <div className="content_container">
         <div className="address">
           {/* SVG for Address
