@@ -28,6 +28,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
   const [searchInput, setSearchInput] = useState<string>('');
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [usingCurrLoc, setUsingCurrLoc] = useState<boolean>(false);
+  const [isLoadingCurrLoc, setLoadingCurrLoc] = useState<boolean>(false);
   const Counties: Set<string> = new Set<string>();
 
   pantries.forEach(pantry => Counties.add(pantry.county));
@@ -76,6 +77,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
     }
 
     try {
+      setLoadingCurrLoc(true);
       const position = (await getLongAndLat()) as GeolocationPosition;
       const loc = position.coords;
       const Names = (await (
@@ -90,6 +92,8 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
     } catch (e) {
       console.log(e);
       alert('could not get location');
+    } finally {
+      setLoadingCurrLoc(false);
     }
   }
 
@@ -117,6 +121,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
         </svg>
         Current Location
       </button>
+      {isLoadingCurrLoc && <p className="load">Loading...</p>}
       <h1 className="text">or</h1>
       <div className="searchBox">
         <svg

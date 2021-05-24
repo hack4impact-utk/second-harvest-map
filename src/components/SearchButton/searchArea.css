@@ -5,6 +5,13 @@
   font-size: 20px;
 }
 
+.load {
+  color: #000000;
+  font-family: var(--normal-font-family);
+  font-weight: var(--normal-font-weight);
+  font-size: 14px;
+}
+
 .searchArea {
   margin-top: 6px;
   width: 360px;
@@ -133,7 +140,7 @@
   .Button {
     margin-top: 10px;
     display: flex;
-    width: 186px;
+    width: 200px;
     height: 40px;
     background-color: #353f4f;
     border: none;
@@ -142,7 +149,7 @@
     font-family: var(--normal-font-family);
     font-weight: bold;
     letter-spacing: 0.3px;
-    font-size: 14px;
+    font-size: 12px;
     align-items: center;
     transition: 200ms;
     margin-bottom: 2px;
