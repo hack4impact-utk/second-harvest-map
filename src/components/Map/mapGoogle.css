@@ -1,0 +1,11 @@
+.GoogleMap {
+  width: 600px;
+  height: 550px;
+}
+
+@media screen and (max-width: 1200px) {
+  .GoogleMap {
+    width: 450px;
+    margin-left: -25px;
+  }
+}
