@@ -6,6 +6,7 @@ import Parse from 'src/helpers/ParseQuery';
 import { API_URL, API_PATHS } from 'src/utils/env';
 import 'src/styles/main.css';
 import './searchArea.css';
+import LatLongFromAddress from 'src/helpers/LatLongFromString';
 
 type Suggestion = FoodPantry | string;
 
@@ -16,7 +17,6 @@ interface Props {
 
 // Helper Function
 const isInString = (str: string, text: string): boolean => {
-  console.log(`Comparing ${text.toLowerCase()} and ${str.toLowerCase()}`);
   const safeText = text.toLowerCase();
   return str.toLowerCase().includes(safeText);
 };
@@ -49,7 +49,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
   };
 
   // Filter Pantries on Enter
-  const textFilterPantries = (text: string): FoodPantry[] => {
+  const textFilterPantries = async (text: string): Promise<FoodPantry[]> => {
     // Search by data in pantry
     const directSearch = pantries.filter(
       // I did not write it this way, linter forced me!
@@ -57,13 +57,23 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
     );
 
     // Search as an adress
-    if (directSearch !== []) {
+    if (directSearch.length !== 0) {
       return directSearch;
     }
 
     // If it is an adress, call server search
     if (Parse(text) === 'add1') {
-      // return call server
+      const [lat, lon] = (await LatLongFromAddress(text)) || [0, 0];
+      if (lat !== 0 && lon !== 0) {
+        const Names = (await (
+          await fetch(`${API_URL}/${API_PATHS.GET_PANTRIES}?lat=${lat}&lon=${lon}`)
+        ).json()) as string[];
+        if (Names.length > 0) {
+          setUsingCurrLoc(true);
+          setSearchInput('Current Location');
+          return pantries.filter(pantry => Names.includes(pantry.name));
+        }
+      }
     }
 
     // alert and return empty if no matches
@@ -152,9 +162,9 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
               setSuggestions(getSuggestions(e.target.value, Array.from(Counties)));
             }
           }}
-          onKeyDown={e => {
+          onKeyDown={async e => {
             if (e.key === 'Enter') {
-              setFilteredPantries(textFilterPantries(searchInput || ''));
+              setFilteredPantries(await textFilterPantries(searchInput || ''));
               setSuggestions([]);
             }
             if ((usingCurrLoc || searchInput === '') && e.key === 'Backspace') {
@@ -172,10 +182,10 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
                 className="Suggestions-Area"
                 key={isFoodPantry(suggest) ? suggest.name : suggest}
                 type="button"
-                onClick={() => {
+                onClick={async () => {
                   const nameToSearch = isFoodPantry(suggest) ? suggest.name : suggest.replace(' County', '');
                   console.log(nameToSearch);
-                  const pantriesFiltered = textFilterPantries(nameToSearch);
+                  const pantriesFiltered = await textFilterPantries(nameToSearch);
                   setFilteredPantries(pantriesFiltered);
                   setSearchInput(isFoodPantry(suggest) ? suggest.name : suggest);
                   setSuggestions([]);
