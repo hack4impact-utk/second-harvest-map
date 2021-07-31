@@ -95,11 +95,10 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
         setUsingCurrLoc(true);
         setSearchInput('Current Location');
         setFilteredPantries(pantries.filter(pantry => Names.includes(pantry.name)));
-        console.log(loc.longitude, loc.latitude);
       }
     } catch (e) {
       console.log(e);
-      alert('could not get location');
+      alert('Could not get location');
     } finally {
       setLoadingCurrLoc(false);
     }
@@ -162,7 +161,8 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
           }}
           onKeyDown={async e => {
             if (e.key === 'Enter') {
-              setFilteredPantries(await textFilterPantries(searchInput || ''));
+              const newPantries = await textFilterPantries(searchInput);
+              if (newPantries.length > 0) setFilteredPantries(newPantries);
               setSuggestions([]);
             }
             if ((usingCurrLoc || searchInput === '') && e.key === 'Backspace') {
@@ -182,7 +182,6 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
                 type="button"
                 onClick={async () => {
                   const nameToSearch = isFoodPantry(suggest) ? suggest.name : suggest.replace(' County', '');
-                  console.log(nameToSearch);
                   const pantriesFiltered = await textFilterPantries(nameToSearch);
                   setFilteredPantries(pantriesFiltered);
                   setSearchInput(isFoodPantry(suggest) ? suggest.name : suggest);
