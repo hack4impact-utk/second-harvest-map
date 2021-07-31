@@ -5,7 +5,7 @@ import getFoodPantries from './Contentful';
 import getNNearest from './NNearest';
 
 const app = express();
-const port = 8080;
+const port = process.env.PORT || 5000;
 app.use(cors());
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
