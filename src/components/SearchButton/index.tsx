@@ -69,8 +69,6 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
           await fetch(`${API_URL}/${API_PATHS.GET_PANTRIES}?lat=${lat}&lon=${lon}`)
         ).json()) as string[];
         if (Names.length > 0) {
-          setUsingCurrLoc(true);
-          setSearchInput('Current Location');
           return pantries.filter(pantry => Names.includes(pantry.name));
         }
       }
