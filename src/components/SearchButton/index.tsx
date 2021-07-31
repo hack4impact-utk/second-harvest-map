@@ -69,7 +69,9 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
           await fetch(`${API_URL}/${API_PATHS.GET_PANTRIES}?lat=${lat}&lon=${lon}`)
         ).json()) as string[];
         if (Names.length > 0) {
-          return pantries.filter(pantry => Names.includes(pantry.name));
+          return pantries
+            .filter(pantry => Names.includes(pantry.name))
+            .sort((a, b) => Names.findIndex(val => val === a.name) - Names.findIndex(val => val === b.name));
         }
       }
     }
@@ -94,7 +96,11 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
       if (Names.length > 0) {
         setUsingCurrLoc(true);
         setSearchInput('Current Location');
-        setFilteredPantries(pantries.filter(pantry => Names.includes(pantry.name)));
+        setFilteredPantries(
+          pantries
+            .filter(pantry => Names.includes(pantry.name))
+            .sort((a, b) => Names.findIndex(val => val === a.name) - Names.findIndex(val => val === b.name))
+        );
       }
     } catch (e) {
       console.log(e);
