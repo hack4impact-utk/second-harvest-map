@@ -13,6 +13,7 @@ function App(): JSX.Element {
   // Pass foodPantries to other components
   const [foodPantries, setFoodPantries] = useState<FoodPantry[]>([]);
   const [filteredPantries, setFilteredPantries] = useState<FoodPantry[]>([]);
+  const [offset, setOffset] = useState(0);
 
   useEffect(() => {
     const gatherData = async () => {
@@ -29,12 +30,17 @@ function App(): JSX.Element {
     gatherData();
   }, []);
 
+  const setPantryView = (pantries: FoodPantry[]) => {
+    setFilteredPantries(pantries);
+    setOffset(0);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
-        <SearchButton pantries={foodPantries} setFilteredPantries={setFilteredPantries} />
+        <SearchButton pantries={foodPantries} setFilteredPantries={setPantryView} />
         {/* <FoodPantryDisplay pantries={filteredPantries} /> */}
-        <FoodPantryDisplay pantries={filteredPantries} />
+        <FoodPantryDisplay pantries={filteredPantries} offset={offset} setOffset={setOffset} />
         <div className="MapArea">
           <div className="divider" />
           <h1 className="wordMap">Map</h1>
