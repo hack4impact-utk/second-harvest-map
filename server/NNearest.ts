@@ -21,6 +21,10 @@ interface DistanceMatrix {
     elements: Array<DistanceElement>;
   }>;
 }
+
+const euclidianDistance = (origin: [number, number], destination: [number, number]) =>
+  Math.sqrt((destination[1] - origin[1]) ** 2 + (destination[0] - origin[0]) ** 2);
+
 /**
  * Returns indices of pantry list in order of n closest to point
  * @param lat latitude
@@ -35,7 +39,16 @@ export default async function getNNearest(lat: number, long: number, n = 9): Pro
 
   distanceMatApi = `${distanceMatApi}${lat.toString()},${long.toString()}&destinations=`;
 
-  PantriesList.forEach((_, index) => {
+  const pantriesWithEuclidianDistance = PantriesList.map(pantry => {
+    return {
+      distance: euclidianDistance([lat, long], [pantry.position.latitude, pantry.position.longitude]),
+      pantry,
+    };
+  });
+
+  const closest25Pantries = pantriesWithEuclidianDistance.sort((a, b) => a.distance - b.distance).splice(0, 25);
+
+  closest25Pantries.forEach((_, index) => {
     distanceMatApi = `${distanceMatApi}${PantriesList[index].position.latitude.toString()}%2C${PantriesList[
       index
     ].position.longitude.toString()}`;
