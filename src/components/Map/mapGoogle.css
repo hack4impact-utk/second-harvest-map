@@ -9,3 +9,10 @@
     margin-left: -25px;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .GoogleMap {
+    width: 350px;
+    margin-left: 25px;
+  }
+}
