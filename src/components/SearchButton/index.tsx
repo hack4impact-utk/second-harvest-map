@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 /* eslint-disable no-alert */
-import React, { FunctionComponent, useState } from 'react';
+import React, { FunctionComponent, useState, useRef } from 'react';
 import { FoodPantry } from 'src/utils/types';
 import Parse from 'src/helpers/ParseQuery';
 import { API_URL, API_PATHS } from 'src/utils/env';
@@ -25,6 +25,8 @@ const isInString = (str: string, text: string): boolean => {
 const isFoodPantry = (item: Suggestion): item is FoodPantry => typeof item !== 'string' && 'name' in item;
 
 const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries }) => {
+  const searchElement = useRef<HTMLInputElement>(null);
+
   const [searchInput, setSearchInput] = useState<string>('');
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const [usingCurrLoc, setUsingCurrLoc] = useState<boolean>(false);
@@ -154,6 +156,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
           type="text"
           className="searchArea"
           value={searchInput}
+          ref={searchElement}
           style={{
             borderRadius: suggestions.length > 0 ? '9px 9px 0 0' : '9px',
             color: usingCurrLoc ? '#2486ff' : '#000000',
@@ -169,6 +172,7 @@ const SearchButton: FunctionComponent<Props> = ({ pantries, setFilteredPantries 
             if (e.key === 'Enter') {
               const newPantries = await textFilterPantries(searchInput);
               if (newPantries.length > 0) setFilteredPantries(newPantries);
+              searchElement?.current?.blur();
               setSuggestions([]);
             }
             if ((usingCurrLoc || searchInput === '') && e.key === 'Backspace') {
